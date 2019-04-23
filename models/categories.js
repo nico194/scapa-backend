@@ -19,8 +19,8 @@ const getCategoryById = (req, res) => {
     });
 }
 
-const createCaterory = (req, res) => {
-    const { description } = req.boby;
+const createCategory = (req, res) => {
+    const description = req.body.description;
     conection.query('INSERT INTO categories (description) values ($1)', [description], (error, result) => {
         if (error){
             throw error;
@@ -31,12 +31,12 @@ const createCaterory = (req, res) => {
 
 const updateCategory = (req, res) => {
     const id = parseInt(req.params.id);
-    const { description } = req.body;
+    const description = req.body.description;
     conection.query('UPDATE categories SET description = $1 WHERE id = $2', [description, id], (error, results) => {
         if (error)  {
             throw error;
         }
-        res.status(200).send(`Updated category ${description}`);
+        res.status(200).send(`Updated category ${id}`);
     });
 }
 
@@ -53,6 +53,10 @@ const deleteCategory = (req, res) => {
 
 
 module.exports = {
-    getCategories
+    getCategories,
+    getCategoryById,
+    createCategory,
+    updateCategory,
+    deleteCategory    
 }
 
