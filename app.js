@@ -1,31 +1,50 @@
-const PORT = process.env.PORT || 8000;
-var express = require('express');
-var bodyParser = require('body-parser');
-const categories = require('./models/categories');
-const pictograms = require('./models/pictograms');
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const morgan = require('morgan');
 
+const categoriesRouter = require('./api/routes/categories');
+const pictogramsRouter = require('./api/routes/pictograms');
 
-var app = express();
+app.use('/public', express.static('public'));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+app.use(morgan('dev'));
 
-app.get('/', function(req, res){
-    res.status(200).send({Conectado: 'API en puerto: ' + PORT});    
+app.use((req, res, next)=> {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header(
+        'Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Accept, Authorization"'
+    );
+    if ( req.method === 'OPTIONS') {
+        res.header('Access-Control-Allow-Methods', 'PUT, PATH, POST, DELETE,GET');
+        return res.status(200).json({}); 
+    }
+    next(); 
 });
 
-app.get('/pictograms', pictograms.getPictograms);
-app.get('/pictograms/:id', pictograms.getPictogramsById);
-//app.get('/pictograms/:id', pictograms.getPictogramsByCategoryId);
-app.post('/pictograms', pictograms.createPictogram);
-app.put('/pictograms/:id', pictograms.updatePictogram);
-app.delete('/pictograms/:id', pictograms.deletePictogram);
+app.get('/', function(req, res){
+    res.status(200).send({Conectado: 'API corriendo'});
+});
 
-app.get('/categories', categories.getCategories);
-app.get('/categories/:id', categories.getCategoryById);
-app.post('/categories', categories.createCategory);
-app.put('/categories/:id', categories.updateCategory);
-app.delete('/categories/:id', categories.deleteCategory);
+app.use('/categories', categoriesRouter);
+app.use('/pictograms', pictogramsRouter);
 
-app.listen(PORT, function(){
-    console.log('Escuchando puerto: ' + PORT)
-})
+
+app.use((req, res, next) =>{
+    const err = new Error('Not found');
+    err.status = 404;
+    next(err);
+});
+
+app.use((err, req, res, next) => {
+    res.status(err.status || 500);
+    res.json({
+        error: {
+            message: err.message
+        }
+    });
+});
+
+module.exports = app;

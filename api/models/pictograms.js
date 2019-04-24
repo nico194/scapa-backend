@@ -1,5 +1,4 @@
 const conection = require('./conection');
-const multer = require('multer');
 
 const getPictograms = (req, res) => {
     conection.query('SELECT * FROM pictograms', (error, results) => {
@@ -30,35 +29,37 @@ const getPictogramsByCategoryId = (req, res) => {
     });
 }
 
-var storage = multer.diskStorage({
-    destination: (req, file, callback) => {
-        callback(null, '/public/pictograms');
-    },
-    filename: (req, file, callback) => {
-        callback(null, file.fieldname + "_" + Date.now() + file.originalname)
-    }   
-});
-
 const createPictogram = (req, res) => {
     const { description, type, category_id } = req.body;
-    const img = storage.fieldname;
+    const image = req.file.path;
     console.log(img)
-    conection.query('INSERT INTO categories (description) values ($1)', [description], (error, result) => {
+    conection.query('INSERT INTO pictograms (description, type, image, category_id) values ($1, $2, $3, $4)', [description, type, image, category_id], (error, result) => {
         if (error){
             throw error;
         }
-        res.status(201).send(`Added Pictogram ${description}`);
+        res.status(201).json({
+            created: 'success',
+            pictogram: {
+                description,
+                type,
+                image,
+                category_id
+            }
+        });
     });
 }
 
 const updatePictogram = (req, res) => {
     const id = parseInt(req.params.id);
     const description = req.body.description;
-    conection.query('UPDATE categories SET description = $1 WHERE id = $2', [description, id], (error, results) => {
+    conection.query('UPDATE pictograms SET description = $1 WHERE id = $2', [description, id], (error, results) => {
         if (error)  {
             throw error;
         }
-        res.status(200).send(`Updated Pictogram ${id}`);
+        res.status(200).json({
+            updated: 'success',
+            id
+        });
     });
 }
 
@@ -68,7 +69,10 @@ const deletePictogram = (req, res) => {
         if (error) {
             throw error;
         }
-        res.status(200).send(`Deleted Pictogram ${id}`)
+        res.status(200).json({
+            deleted: 'success',
+            id
+        });
     })
 }
 
