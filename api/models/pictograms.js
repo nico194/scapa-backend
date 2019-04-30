@@ -30,9 +30,10 @@ const getPictogramsByCategoryId = (req, res) => {
 }
 
 const createPictogram = (req, res) => {
+    console.log(req.file);
     const { description, type, category_id } = req.body;
     const image = req.file.path;
-    console.log(img)
+    console.log(image)
     conection.query('INSERT INTO pictograms (description, type, image, category_id) values ($1, $2, $3, $4)', [description, type, image, category_id], (error, result) => {
         if (error){
             throw error;
