@@ -6,7 +6,8 @@ const patients = require('../models/patients');
 
 
 router.get('/', patients.getPatients);
-router.post('/signup', upload.single('patientImage'), patients.signUp);
+router.post('/signup', upload.single('patientImage'), patients.signUpPatient);
+router.post('/signin', patients.signInPatient);
 
 module.exports = router;
 

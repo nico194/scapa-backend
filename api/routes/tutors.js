@@ -6,6 +6,7 @@ const tutors = require('../models/tutors');
 
 
 router.get('/', tutors.getTutors);
-router.post('/signup', upload.single('tutorImage'), tutors.signUp);
+router.post('/signup', upload.single('tutorImage'), tutors.signUpTutor);
+router.post('/signin', tutors.signInTutor);
 
 module.exports = router;
