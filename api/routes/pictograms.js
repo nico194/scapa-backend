@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const upl = require('./uploadFile').upload;
 const upload = upl('./public/pictograms/');
-const pictograms = require('../models/pictograms');
+const pictograms = require('../controllers/pictograms');
 
 
 router.get('/', pictograms.getPictograms);

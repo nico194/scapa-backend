@@ -1,13 +1,9 @@
 const conection = require('./conection');
 const { signUp, signIn } = require('./auth');
+const { get } = require('../controllers/conection');
 
 const getPatients = (req, res) => {
-    conection.query('SELECT * FROM patients', (error, result) => {
-        if (error) {
-            throw error;
-        }
-        res.status(200).send(result.rows)
-    });
+    get('patients', res);
 }
 
 const signUpPatient = (req, res) => {

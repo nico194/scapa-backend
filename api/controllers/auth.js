@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const signUp = (conection, entity, body, file, res) => {
     let first = true;
@@ -81,8 +82,19 @@ const signIn = (conection, entity, body, res) => {
                 });
             }
             if (login) {
+                const token = jwt.sign(
+                    {
+                        email: results.rows[0].email,
+                        id: results.rows[0].id
+                    },
+                    'secret',
+                    {
+                        expiresIn: '1h'
+                    }
+                );
                 return res.status(200).json({
-                    message: 'Authentication Success'
+                    message: 'Authentication Success',
+                    token: token
                 });
             } else {
                 return res.status(404).json({

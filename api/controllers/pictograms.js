@@ -1,22 +1,11 @@
-const conection = require('./conection');
+const { get, getById, insert, update, del } = require('./conection');
 
 const getPictograms = (req, res) => {
-    conection.query('SELECT * FROM pictograms', (error, results) => {
-        if (error) {
-            throw error;
-        }
-        res.status(200).send(results.rows)
-    });
+    get('pictograms', res);  
 }
 
 const getPictogramsById = (req, res) => {
-    const id = parseInt(req.params.id);
-    conection.query('SELECT * FROM pictograms WHERE id = $1', [id], (error, results) => {
-        if (error) {
-            throw error;
-        }
-        res.status(200).send(results.rows);
-    });
+    getById('pictograms', req.params.id, res);
 }
 
 const getPictogramsByCategoryId = (req, res) => {
@@ -30,24 +19,7 @@ const getPictogramsByCategoryId = (req, res) => {
 }
 
 const createPictogram = (req, res) => {
-    console.log(req.file);
-    const { description, type, category_id } = req.body;
-    const image = req.file.path;
-    console.log(image)
-    conection.query('INSERT INTO pictograms (description, type, image, category_id) values ($1, $2, $3, $4)', [description, type, image, category_id], (error, result) => {
-        if (error){
-            throw error;
-        }
-        res.status(201).json({
-            created: 'success',
-            pictogram: {
-                description,
-                type,
-                image,
-                category_id
-            }
-        });
-    });
+    insert('pictograms', req.body, res, req.file);
 }
 
 const updatePictogram = (req, res) => {

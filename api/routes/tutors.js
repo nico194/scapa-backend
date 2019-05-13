@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const upl = require('./uploadFile').upload;
 const upload = upl('./public/tutors/');
-const tutors = require('../models/tutors');
+const tutors = require('../controllers/tutors');
 
 
 router.get('/', tutors.getTutors);
