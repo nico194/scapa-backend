@@ -19,12 +19,12 @@ const signUp = (conection, entity, body, file, res) => {
             
     });
         
-    const newBoby = Object.values(body);
+    const newBody = Object.values(body);
 
     if(file) {
         namesKeys += ', image';
         numbersKeys += `, $${number + 1}`;
-        newBoby.push(file.path);
+        newBody.push(file.path);
     }
         
     conection.query(`SELECT * FROM ${entity} WHERE email = $1`, [body.email], (error, result) => {
@@ -42,15 +42,15 @@ const signUp = (conection, entity, body, file, res) => {
                         error: "Error hash" + err
                     })
                 } else {
-                    newBody.password = hash;
-                    let query = `INSERT INTO patients (${namesKeys}) values (${numbersKeys})`;                        
-                    conection.query(query, newBoby, (error, result) => {
+                    newBody[1] = hash;
+                    let query = `INSERT INTO ${entity} (${namesKeys}) values (${numbersKeys})`;                        
+                    conection.query(query, newBody, (error, result) => {
                         if (error){
                             throw error;
                         }
                         res.status(201).json({
                             signup: 'success',
-                            patient: {
+                            user: {
                                 newBody
                             },
                             result
@@ -74,7 +74,6 @@ const signIn = (conection, entity, body, res) => {
                 message: 'Authentication Failed - Mail doesn\'t exsist'
             });
         }
-        console.log("Body: ", results.rows[0].password);
         bcrypt.compare(password, results.rows[0].password, (err, login) => {
             if (err) {
                 return res.status(404).json({

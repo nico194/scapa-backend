@@ -34,7 +34,7 @@ app.get('/', function(req, res){
 
 app.use('/categories', categoriesRouter);
 app.use('/pictograms', pictogramsRouter);
-app.use('/stutors', tutorsRouter);
+app.use('/tutors', tutorsRouter);
 app.use('/patients', patientsRouter);
 app.use('/folders', fordersRouter);
 app.use('/categories-folder', categoriesInFolderRouter);

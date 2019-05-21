@@ -7,26 +7,31 @@ const pool = new Pool({
     port: 5432
 });
 
-const get = (entity, res) => {
-    pool.query(`SELECT * FROM ${entity}`, (err, results) => {
-        if(err) {
-            throw err
-        }
-        res.status(200).json(results.rows);
+const get = (entity) => {
+    return new Promise(function(resolve, reject){
+        pool.query(`SELECT * FROM ${entity}`, (err, results) => {
+            if(err) {
+                reject(err);
+            }
+            resolve(results.rows);
+        }); 
     });
 }
 
-const getById = (entity, id, res, findBy) => {
+const getById = (entity, findBy, id) => {
     let find = findBy || 'id';
-    pool.query(`SELECT * FROM ${entity} WHERE ${find} = $1`, [id], (err, results) => {
-        if(err) {
-            throw err
-        }
-        res.status(200).json(results.rows);
-    }); 
+    console.log(find)
+    return new Promise(function(resolve, reject){
+        pool.query(`SELECT * FROM ${entity} WHERE ${find} = $1`, [id], (err, results) => {
+            if(err) {
+                reject(err);
+            }
+            resolve(results.rows);
+        }); 
+    });
 }
 
-const insert = (entity, body, res, file) => {
+const insert = (entity, body, file) => {
     let first = true;
     let namesKeys = '';
     let numbersKeys = '';
@@ -51,18 +56,19 @@ const insert = (entity, body, res, file) => {
         numbersKeys += `, $${number + 1}`
         newBoby.push(file.path);
     }
-    let query = `INSERT INTO ${entity} (${namesKeys}) values (${numbersKeys})`;                        
-    pool.query(query, newBoby, (error, result) => {
-        if (error){
-            throw error;
-        }
-        res.status(200).json({
-            insert: 'success'
-        });
-    });
+    let query = `INSERT INTO ${entity} (${namesKeys}) values (${numbersKeys})`;   
+    return new Promise(function(resolve, reject){
+        pool.query(query, newBoby, (err, results) => {
+            if(err) {
+                reject(err);
+            }
+            console.log(results)
+            resolve(true);
+        }); 
+    });   
 }
 
-const update = (entity, id, body, res) => {
+const update = (entity, id, body, file) => {
     let first = true;
     let namesAndnumbersKeys = '';
     let number = 0;
@@ -76,7 +82,7 @@ const update = (entity, id, body, res) => {
         }
     });
 
-    const newBoby = Object.values(body);
+    const newBody = Object.values(body);
 
     if(file) {
         namesAndnumbersKeys += `, image = $${number + 1}`;
@@ -85,25 +91,25 @@ const update = (entity, id, body, res) => {
 
     newBoby.push(id)
 
-    let query = `UPDATE ${entity} SET ${namesAndnumbersKeys} WHERE id = $${number + 1}`;                        
-    pool.query(query, newBoby, (error, result) => {
-        if (error){
-            throw error;
-        }
-        res.status(200).json({
-            update: 'success'
-        });
+    let query = `UPDATE ${entity} SET ${namesAndnumbersKeys} WHERE id = $${number + 1}`;  
+    return new Promise(function(resolve, reject){
+        pool.query(query, newBody, (err, result) => {
+            if(err) {
+                reject(err);
+            }
+            resolve(true);
+        }); 
     });
 }
 
-const del = (entity, id, res) => {
-    pool.query(`DELETE FROM ${entity} WHERE id = $1`, [id], (err, results) => {
-        if(err) {
-            throw err
-        }
-        res.status(200).json({
-            delete: 'success'
-        });
+const del = (entity, id) => {
+    return new Promise(function(resolve, reject){
+        pool.query(`DELETE FROM ${entity} WHERE id = $1`, [id], (err, result) => {
+            if(err) {
+                reject(err);
+            }
+            resolve(true);
+        }); 
     }); 
 }
 
