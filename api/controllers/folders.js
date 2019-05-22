@@ -1,5 +1,4 @@
 const { get , getById, insert, update, del} = require('./conection');
-var url = require('url');
 
 const getFolders = (req, res) => {
     get('folders')

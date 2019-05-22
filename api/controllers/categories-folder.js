@@ -27,25 +27,17 @@ const createCategoriesInFolder = (req, res) => {
     })  
 }
 
-const updateCategoriesInFolder = (req, res) => {
-    const idFolder = parseInt(req.params.id);
-    const categories = req.body.categories
-    categories.forEach( idCategory => {
-        update('categories_folder', idFolder, { category_id: idCategory })
-            .then( response => response ? res.status(200).json({ update: 'success' }) : res.status(501).json({ update: 'failure' }))
-            .catch( err => { throw err });
-    })
-}
 
 const deleteCategoriesInFolder = (req, res) => {
-    del('categories_folder', parseInt(req.params.id));
+    del('categories_folder', parseInt(req.params.id))
+        .then( response => response ? res.status(200).json({ delete: 'success' }) : res.status(501).json({ delete: 'failure' }))
+        .catch( err => { throw err });
 }
 
 module.exports = {
     getCategoriesFolder,
     getCategoriesInFolder,
     createCategoriesInFolder,
-    updateCategoriesInFolder,
     deleteCategoriesInFolder
 }
 
