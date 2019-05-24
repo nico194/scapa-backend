@@ -13,13 +13,13 @@ const getPictogramsById = (req, res) => {
 }
 
 const getPictogramsByCategoryId = (req, res) => {
-    const id = parseInt(req.params.id);
-    conection.query('SELECT * FROM pictograms WHERE category_id = $1', [id], (error, results) => {
-        if (error) {
-            throw error;
-        }
-        res.status(200).send(results.rows);
-    });
+    getById('pictograms', parseInt(req.params.id), 'category_id')
+        .then( pictograms => res.status(200).json(pictograms))
+        .catch( err => { throw err });
+}
+
+const getPictogramsByPhraseId = (req, res) => {
+    
 }
 
 const createPictogram = (req, res) => {

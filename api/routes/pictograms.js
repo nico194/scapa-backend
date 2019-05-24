@@ -7,7 +7,7 @@ const pictograms = require('../controllers/pictograms');
 
 router.get('/', pictograms.getPictograms);
 router.get('/:id', pictograms.getPictogramsById);
-//router.get('/pictograms/:id', pictograms.getPictogramsByCategoryId);
+router.get('/category/:id', pictograms.getPictogramsByCategoryId);
 router.post('/', upload.single('pictogramImage'), pictograms.createPictogram);
 router.put('/:id', pictograms.updatePictogram);
 router.delete('/:id', pictograms.deletePictogram);

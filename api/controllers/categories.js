@@ -12,6 +12,26 @@ const getCategoryById = (req, res) => {
         .catch( err => { throw err });
 }
 
+const getCategoriesByFolderId = (req, res) => {
+    getById('categories_folder', parseInt(req.params.id) , 'folder_id', 'category_id')
+        .then( categoriesInFolder => {
+            let categories = [];
+            Object.values(categoriesInFolder).forEach( category => {
+                getById('categories', category.category_id)
+                    .then( category => {
+                        categories.push(category[0])
+                    })
+                    .catch( err => { throw err });
+            });
+            return categories;
+        }).then( categories => {
+            console.log(categories)
+            res.status(200).json(categories);
+        })
+        .catch( err => { throw err });
+
+}
+
 const createCategory = (req, res) => {
     insert('categories', req.body)
         .then( response => response ? res.status(200).json({ insert: 'success' }) : res.status(501).json({ insert: 'failure' }))
@@ -33,6 +53,7 @@ const deleteCategory = (req, res) => {
 module.exports = {
     getCategories,
     getCategoryById,
+    getCategoriesByFolderId,
     createCategory,
     updateCategory,
     deleteCategory    

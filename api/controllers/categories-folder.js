@@ -1,11 +1,9 @@
 const { get, getById, insert, update, del } = require('./conection');
 
 const getCategoriesFolder = (req, res) => {
-    let categories = [];
     get('categories_folder')
-        .then( results => categories = results )
-        .catch( err => { throw err }); 
-    res.status(200).json(categories);    
+        .then( categories => res.status(200).json(categories))
+        .catch( err => { throw err });   
 }
 
 const getCategoriesInFolder = (req, res) => {

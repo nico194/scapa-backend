@@ -7,9 +7,10 @@ const pool = new Pool({
     port: 5432
 });
 
-const get = (entity) => {
+const get = (entity, columns) => {
+    let col = columns || '*';
     return new Promise(function(resolve, reject){
-        pool.query(`SELECT * FROM ${entity}`, (err, results) => {
+        pool.query(`SELECT ${col} FROM ${entity}`, (err, results) => {
             if(err) {
                 reject(err);
             }
@@ -18,11 +19,12 @@ const get = (entity) => {
     });
 }
 
-const getById = (entity, findBy, id) => {
+const getById = (entity, id, findBy, columns) => {
     let find = findBy || 'id';
-    console.log(find)
+    let col = columns || '*';
+    console.log(find, id)
     return new Promise(function(resolve, reject){
-        pool.query(`SELECT * FROM ${entity} WHERE ${find} = $1`, [id], (err, results) => {
+        pool.query(`SELECT ${col} FROM ${entity} WHERE ${find} = $1`, [id], (err, results) => {
             if(err) {
                 reject(err);
             }
