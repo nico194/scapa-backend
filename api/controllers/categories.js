@@ -1,4 +1,4 @@
-const { get, getById, insert, update, del } = require('./conection');
+const { get, getById, insert, update, del } = require('./connection');
 
 const getCategories = (req, res) => {
     get('categories')
@@ -15,18 +15,19 @@ const getCategoryById = (req, res) => {
 const getCategoriesByFolderId = (req, res) => {
     getById('categories_folder', parseInt(req.params.id) , 'folder_id', 'category_id')
         .then( categoriesInFolder => {
-            let categories = [];
-            Object.values(categoriesInFolder).forEach( category => {
-                getById('categories', category.category_id)
-                    .then( category => {
-                        categories.push(category[0])
-                    })
-                    .catch( err => { throw err });
-            });
+            console.log(categoriesInFolder);
+            let categories = [];            
+            do {
+                Object.values(categoriesInFolder).forEach( category => {
+                    getById('categories', category.category_id)
+                        .then( category => {
+                            categories.push(category[0])
+                        })
+                        .catch( err => { throw err });
+                });
+                console.log(categories);                
+            } while (categoriesInFolder.lenght === categories.length);  
             return categories;
-        }).then( categories => {
-            console.log(categories)
-            res.status(200).json(categories);
         })
         .catch( err => { throw err });
 

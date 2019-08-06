@@ -1,4 +1,4 @@
-const { get , getById, insert, update, del} = require('./conection');
+const { get , getById, insert, update, del} = require('./connection');
 
 const getPhrases = (req, res) => {
     get('phrases', res);     

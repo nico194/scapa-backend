@@ -1,4 +1,4 @@
-const { get, getById, insert, update, del } = require('./conection');
+const { get, getById, insert, update, del } = require('./connection');
 
 const getCategoriesFolder = (req, res) => {
     get('categories_folder')
@@ -14,15 +14,21 @@ const getCategoriesInFolder = (req, res) => {
     res.status(200).json(categories);    
 }
 
-const createCategoriesInFolder = (req, res) => {
-    const idFolder = req.body.folder_id;
-    const categories = req.body.categories;
-    console.log(categories);
-    categories.forEach(idCategory => {
-        insert('categories_folder', { folder_id: idFolder, category_id: idCategory })
-            .then( response => response ? res.status(200).json({ insert: 'success' }) : res.status(501).json({ insert: 'failure' }))
-            .catch( err => { throw err }); 
-    })  
+const createCategoriesInFolder = async (req, res) => {
+    const idFolder = parseInt(req.body.folder_id);
+    let categories = req.body.categories;
+    console.log(categories, idFolder);
+    for(let category of categories) {
+        console.log('Category: ', category)
+        const a = await insert('categories_folder',
+            {
+                folder_id: idFolder,
+                category_id: category
+            },
+        );
+        console.log('Await', a);
+    }
+    res.status(200).json({insert: 'succsess'})
 }
 
 

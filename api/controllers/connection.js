@@ -3,7 +3,7 @@ const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
     database: 'scapa-backend',
-    password: '1234',
+    password: 'nico',
     port: 5432
 });
 
@@ -52,7 +52,6 @@ const insert = (entity, body, file) => {
     });
         
     const newBoby = Object.values(body);
-
     if(file) {
         namesKeys += ', image';
         numbersKeys += `, $${number + 1}`
@@ -115,7 +114,7 @@ const del = (entity, id) => {
     }); 
 }
 
-const conection = {
+const connection = {
     pool,
     get,
     getById,
@@ -124,4 +123,4 @@ const conection = {
     del
 }
 
-module.exports = conection;
+module.exports = connection;

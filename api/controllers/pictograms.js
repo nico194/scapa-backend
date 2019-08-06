@@ -1,4 +1,4 @@
-const { get, getById, insert, update, del } = require('./conection');
+const { get, getById, insert, update, del } = require('./connection');
 
 const getPictograms = (req, res) => {
     get('pictograms')

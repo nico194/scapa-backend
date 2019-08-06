@@ -1,5 +1,5 @@
 const { signUp, signIn } = require('./auth');
-const { pool, get } = require('../controllers/conection');
+const { pool, get } = require('../controllers/connection');
 
 const getPatients = (req, res) => {
     get('patients')

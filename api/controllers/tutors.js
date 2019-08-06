@@ -1,4 +1,4 @@
-const { pool, get } = require('./conection');
+const { pool, get } = require('./connection');
 const { signUp, signIn } = require('./auth');
 
 const getTutors = (req, res) => {

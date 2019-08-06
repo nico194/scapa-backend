@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const signUp = (conection, entity, body, file, res) => {
+const signUp = (connection, entity, body, file, res) => {
     let first = true;
     let namesKeys = '';
     let numbersKeys = '';
@@ -27,7 +27,7 @@ const signUp = (conection, entity, body, file, res) => {
         newBody.push(file.path);
     }
         
-    conection.query(`SELECT * FROM ${entity} WHERE email = $1`, [body.email], (error, result) => {
+    connection.query(`SELECT * FROM ${entity} WHERE email = $1`, [body.email], (error, result) => {
         if (error) {
             throw error;
         }
@@ -44,7 +44,7 @@ const signUp = (conection, entity, body, file, res) => {
                 } else {
                     newBody[1] = hash;
                     let query = `INSERT INTO ${entity} (${namesKeys}) values (${numbersKeys})`;                        
-                    conection.query(query, newBody, (error, result) => {
+                    connection.query(query, newBody, (error, result) => {
                         if (error){
                             throw error;
                         }
@@ -63,9 +63,9 @@ const signUp = (conection, entity, body, file, res) => {
     });    
 }
 
-const signIn = (conection, entity, body, res) => {
+const signIn = (connection, entity, body, res) => {
     const { email, password } = body;
-    conection.query(`SELECT * FROM ${entity} WHERE email = $1`, [email], (error, results) => {
+    connection.query(`SELECT * FROM ${entity} WHERE email = $1`, [email], (error, results) => {
         if(error) {
             throw error;
         }
