@@ -23,6 +23,7 @@ const getById = (entity, id, findBy, columns) => {
     let find = findBy || 'id';
     let col = columns || '*';
     console.log(find, id)
+    console.log('Consulta: ', `SELECT ${col} FROM ${entity} WHERE ${find} = $1`);
     return new Promise(function(resolve, reject){
         pool.query(`SELECT ${col} FROM ${entity} WHERE ${find} = $1`, [id], (err, results) => {
             if(err) {

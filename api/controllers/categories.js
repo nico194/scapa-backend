@@ -12,24 +12,14 @@ const getCategoryById = (req, res) => {
         .catch( err => { throw err });
 }
 
-const getCategoriesByFolderId = (req, res) => {
-    getById('categories_folder', parseInt(req.params.id) , 'folder_id', 'category_id')
-        .then( categoriesInFolder => {
-            console.log(categoriesInFolder);
-            let categories = [];            
-            do {
-                Object.values(categoriesInFolder).forEach( category => {
-                    getById('categories', category.category_id)
-                        .then( category => {
-                            categories.push(category[0])
-                        })
-                        .catch( err => { throw err });
-                });
-                console.log(categories);                
-            } while (categoriesInFolder.lenght === categories.length);  
-            return categories;
-        })
-        .catch( err => { throw err });
+const getCategoriesInFolder = async (req, res) => {
+    let categories = [];
+    const categoriesId = await getById('categories_folder', parseInt(req.params.id) , 'folder_id', 'category_id')
+    for(const id of categoriesId){
+        const category = await getById('categories', id.category_id, 'id', 'description');
+        categories.push(category[0]);
+    }
+    res.status(200).json(categories);
 
 }
 
@@ -54,7 +44,7 @@ const deleteCategory = (req, res) => {
 module.exports = {
     getCategories,
     getCategoryById,
-    getCategoriesByFolderId,
+    getCategoriesInFolder,
     createCategory,
     updateCategory,
     deleteCategory    

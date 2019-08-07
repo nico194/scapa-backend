@@ -1,4 +1,4 @@
-const { get, getById, insert, update, del } = require('./connection');
+const { get, insert, del } = require('./connection');
 
 const getCategoriesFolder = (req, res) => {
     get('categories_folder')
@@ -6,27 +6,17 @@ const getCategoriesFolder = (req, res) => {
         .catch( err => { throw err });   
 }
 
-const getCategoriesInFolder = (req, res) => {
-    let categories = []
-    getById('categories_folder', req.params.id , 'folder_id')
-        .then( results => categories = results )
-        .catch( err => { throw err }); 
-    res.status(200).json(categories);    
-}
-
 const createCategoriesInFolder = async (req, res) => {
     const idFolder = parseInt(req.body.folder_id);
     let categories = req.body.categories;
     console.log(categories, idFolder);
     for(let category of categories) {
-        console.log('Category: ', category)
-        const a = await insert('categories_folder',
+        await insert('categories_folder',
             {
                 folder_id: idFolder,
                 category_id: category
             },
         );
-        console.log('Await', a);
     }
     res.status(200).json({insert: 'succsess'})
 }
@@ -40,7 +30,6 @@ const deleteCategoriesInFolder = (req, res) => {
 
 module.exports = {
     getCategoriesFolder,
-    getCategoriesInFolder,
     createCategoriesInFolder,
     deleteCategoriesInFolder
 }
