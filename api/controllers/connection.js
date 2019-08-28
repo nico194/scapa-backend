@@ -3,7 +3,7 @@ const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
     database: 'scapa-backend',
-    password: 'nico',
+    password: '1234',
     port: 5432
 });
 
@@ -58,14 +58,14 @@ const insert = (entity, body, file) => {
         numbersKeys += `, $${number + 1}`
         newBoby.push(file.path);
     }
-    let query = `INSERT INTO ${entity} (${namesKeys}) values (${numbersKeys})`;   
+    let query = `INSERT INTO ${entity} (${namesKeys}) values (${numbersKeys}) RETURNING id`;   
     return new Promise(function(resolve, reject){
         pool.query(query, newBoby, (err, results) => {
             if(err) {
                 reject(err);
             }
             console.log(results)
-            resolve(true);
+            resolve(results.rows[0].id);
         }); 
     });   
 }
@@ -90,9 +90,9 @@ const update = (entity, id, body, file) => {
         namesAndnumbersKeys += `, image = $${number + 1}`;
         newBoby.push(file.path);
     }
-
+    console.log('Id:', id);
     newBoby.push(id)
-
+    console.log('New body after:', newBody);
     let query = `UPDATE ${entity} SET ${namesAndnumbersKeys} WHERE id = $${number + 1}`;  
     return new Promise(function(resolve, reject){
         pool.query(query, newBody, (err, result) => {

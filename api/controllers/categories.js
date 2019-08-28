@@ -25,7 +25,7 @@ const getCategoriesInFolder = async (req, res) => {
 
 const createCategory = (req, res) => {
     insert('categories', req.body)
-        .then( response => response ? res.status(200).json({ insert: 'success' }) : res.status(501).json({ insert: 'failure' }))
+        .then( response => response ? res.status(200).json({ insert: 'success', id: response }) : res.status(501).json({ insert: 'failure' }))
         .catch( err => { throw err });
 }
 
