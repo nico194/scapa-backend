@@ -58,7 +58,8 @@ const insert = (entity, body, file) => {
         numbersKeys += `, $${number + 1}`
         newBoby.push(file.path);
     }
-    let query = `INSERT INTO ${entity} (${namesKeys}) values (${numbersKeys}) RETURNING id`;   
+    let query = `INSERT INTO ${entity} (${namesKeys}) values (${numbersKeys}) RETURNING id`;
+    console.log('Insert Query: ', query);
     return new Promise(function(resolve, reject){
         pool.query(query, newBoby, (err, results) => {
             if(err) {
@@ -71,29 +72,31 @@ const insert = (entity, body, file) => {
 }
 
 const update = (entity, id, body, file) => {
+    console.log(body)
     let first = true;
-    let namesAndnumbersKeys = '';
+    let namesAndNumbersKeys = '';
     let number = 0;
     Object.keys(body).forEach( (name, index) => {
         number = index + 1;
         if (first) {
             first = false;
-            namesAndnumbersKeys = `${name} = $${number}`;
+            namesAndNumbersKeys = `${name} = $${number}`;
         } else {
-            namesAndnumbersKeys += `, ${name} = $${number}`;
+            namesAndNumbersKeys += `, ${name} = $${number}`;
         }
     });
 
     const newBody = Object.values(body);
-
+    
     if(file) {
-        namesAndnumbersKeys += `, image = $${number + 1}`;
-        newBoby.push(file.path);
+        namesAndNumbersKeys += `, image = $${number + 1}`;
+        newBody.push(file.path);
     }
-    console.log('Id:', id);
-    newBoby.push(id)
-    console.log('New body after:', newBody);
-    let query = `UPDATE ${entity} SET ${namesAndnumbersKeys} WHERE id = $${number + 1}`;  
+    
+    newBody.push(id);
+
+    let query = `UPDATE ${entity} SET ${namesAndNumbersKeys} WHERE id = $${number + 1}`;
+    console.log('Update Query: ', query);
     return new Promise(function(resolve, reject){
         pool.query(query, newBody, (err, result) => {
             if(err) {
