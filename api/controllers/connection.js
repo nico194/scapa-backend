@@ -3,7 +3,7 @@ const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
     database: 'scapa-backend',
-    password: '1234',
+    password: 'nico',
     port: 5432
 });
 
@@ -58,6 +58,7 @@ const insert = (entity, body, file) => {
         numbersKeys += `, $${number + 1}`
         newBoby.push(file.path);
     }
+    console.log('new body: ', newBoby)
     let query = `INSERT INTO ${entity} (${namesKeys}) values (${numbersKeys}) RETURNING id`;
     console.log('Insert Query: ', query);
     return new Promise(function(resolve, reject){
