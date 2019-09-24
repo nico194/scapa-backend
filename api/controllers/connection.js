@@ -1,4 +1,5 @@
 const Pool = require('pg').Pool;
+const fs = require('fs');
 const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
@@ -7,10 +8,9 @@ const pool = new Pool({
     port: 5432
 });
 
-const get = (entity, columns) => {
-    let col = columns || '*';
+const get = (entity, columns = '*') => {
     return new Promise(function(resolve, reject){
-        pool.query(`SELECT ${col} FROM ${entity}`, (err, results) => {
+        pool.query(`SELECT ${columns} FROM ${entity}`, (err, results) => {
             if(err) {
                 reject(err);
             }
@@ -19,13 +19,10 @@ const get = (entity, columns) => {
     });
 }
 
-const getById = (entity, id, findBy, columns) => {
-    let find = findBy || 'id';
-    let col = columns || '*';
-    console.log(find, id)
-    console.log('Consulta: ', `SELECT ${col} FROM ${entity} WHERE ${find} = $1`);
+const getById = (entity, id, findBy = 'id', columns = '*') => {
+    console.log('Query: ', `SELECT ${columns} FROM ${entity} WHERE ${findBy} = $1`);
     return new Promise(function(resolve, reject){
-        pool.query(`SELECT ${col} FROM ${entity} WHERE ${find} = $1`, [id], (err, results) => {
+        pool.query(`SELECT ${columns} FROM ${entity} WHERE ${findBy} = $1`, [id], (err, results) => {
             if(err) {
                 reject(err);
             }
@@ -52,21 +49,24 @@ const insert = (entity, body, file) => {
             
     });
         
-    const newBoby = Object.values(body);
+    const newBody = Object.values(body);
     if(file) {
         namesKeys += ', image';
         numbersKeys += `, $${number + 1}`
-        newBoby.push(file.path);
+        newBody.push(file.path);
     }
     let query = `INSERT INTO ${entity} (${namesKeys}) values (${numbersKeys}) RETURNING id`;
     console.log('Insert Query: ', query);
     return new Promise(function(resolve, reject){
-        pool.query(query, newBoby, (err, results) => {
+        pool.query(query, newBody, (err, results) => {
             if(err) {
                 reject(err);
             }
-            console.log(results)
-            resolve(results.rows[0].id);
+            const response = {
+                id: results.rows[0].id,
+                path: file? file.path : ''
+            }
+            resolve(response);
         }); 
     });   
 }
@@ -108,14 +108,21 @@ const update = (entity, id, body, file) => {
 }
 
 const del = (entity, id) => {
+    if(entity === 'pictograms' || entity === 'tutors' || entity === 'patients') {
+        getById(entity, id)
+            .then( data => {
+                fs.unlinkSync(data[0].image);
+            })
+            .catch(err => { throw err })
+    }
     return new Promise(function(resolve, reject){
         pool.query(`DELETE FROM ${entity} WHERE id = $1`, [id], (err, result) => {
             if(err) {
                 reject(err);
             }
             resolve(true);
-        }); 
-    }); 
+        });
+    });
 }
 
 const connection = {
