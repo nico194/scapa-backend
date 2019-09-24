@@ -23,6 +23,7 @@ const getPictogramsByPhraseId = (req, res) => {
 }
 
 const createPictogram = (req, res) => {
+    console.log('request: ',req.body);
     insert('pictograms', req.body, req.file)
         .then( response => response ? res.status(200).json({ insert: 'success', response }) : res.status(501).json({ insert: 'failure' }))
         .catch( err => { throw err });
