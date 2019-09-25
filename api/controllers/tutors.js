@@ -12,6 +12,7 @@ const signUpTutor = (req, res) => {
 }
 
 const signInTutor = (req, res) => {
+    console.log('request',req.body)
     signIn(pool, 'tutors', req.body, res);
 }
 

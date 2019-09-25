@@ -50,10 +50,7 @@ const signUp = (connection, entity, body, file, res) => {
                         }
                         res.status(201).json({
                             signup: 'success',
-                            user: {
-                                newBody
-                            },
-                            result
+                            [entity]: results.rows[0]
                         });
                     });
                 }
@@ -65,6 +62,7 @@ const signUp = (connection, entity, body, file, res) => {
 
 const signIn = (connection, entity, body, res) => {
     const { email, password } = body;
+    console.log('Body: ', body)
     connection.query(`SELECT * FROM ${entity} WHERE email = $1`, [email], (error, results) => {
         if(error) {
             throw error;
@@ -93,7 +91,8 @@ const signIn = (connection, entity, body, res) => {
                 );
                 return res.status(200).json({
                     message: 'Authentication Success',
-                    token: token
+                    token: token,
+                    [entity]: results.rows[0]
                 });
             } else {
                 return res.status(404).json({
