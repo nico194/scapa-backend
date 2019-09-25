@@ -55,7 +55,7 @@ const insert = (entity, body, file) => {
         numbersKeys += `, $${number + 1}`
         newBody.push(file.path);
     }
-    console.log('new body: ', newBoby)
+    console.log('new body: ', newBody)
     let query = `INSERT INTO ${entity} (${namesKeys}) values (${numbersKeys}) RETURNING id`;
     console.log('Insert Query: ', query);
     return new Promise(function(resolve, reject){
