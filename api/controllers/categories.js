@@ -13,8 +13,10 @@ const getCategoryById = (req, res) => {
 }
 
 const getCategoriesInFolder = async (req, res) => {
+    const idFolder = await getById('folders', parseInt(req.params.id), 'pacient_id', 'id')[0];
+    console.log('idFolder', idFolder)
     let categories = [];
-    const categoriesId = await getById('categories_folder', parseInt(req.params.id) , 'folder_id', 'category_id')
+    const categoriesId = await getById('categories_folder', idFolder , 'folder_id', 'category_id')
     for(const id of categoriesId){
         const category = await getById('categories', id.category_id, 'id', 'description');
         categories.push(category[0]);

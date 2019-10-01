@@ -20,12 +20,13 @@ const get = (entity, columns = '*') => {
 }
 
 const getById = (entity, id, findBy = 'id', columns = '*') => {
-    console.log('Query: ', `SELECT ${columns} FROM ${entity} WHERE ${findBy} = $1`);
+    console.log('Query: ', `SELECT ${columns} FROM ${entity} WHERE ${findBy} = $1`, id);
     return new Promise(function(resolve, reject){
         pool.query(`SELECT ${columns} FROM ${entity} WHERE ${findBy} = $1`, [id], (err, results) => {
             if(err) {
                 reject(err);
             }
+            console.log('get: ', results.rows)
             resolve(results.rows);
         }); 
     });
@@ -59,12 +60,13 @@ const insert = (entity, body, file) => {
     let query = `INSERT INTO ${entity} (${namesKeys}) values (${numbersKeys}) RETURNING id`;
     console.log('Insert Query: ', query);
     return new Promise(function(resolve, reject){
-        pool.query(query, newBody, (err, results) => {
+        pool.query(query, newBody, (err, result) => {
             if(err) {
                 reject(err);
             }
+            console.log('result', result)
             const response = {
-                id: results.rows[0].id,
+                id: result.rows[0].id,
                 path: file? file.path : ''
             }
             resolve(response);

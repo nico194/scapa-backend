@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const signUp = (connection, entity, body, file, res) => {
+const signUp = (connection, entity, body, file) => {
     let first = true;
     let namesKeys = '';
     let numbersKeys = '';
@@ -26,38 +26,38 @@ const signUp = (connection, entity, body, file, res) => {
         numbersKeys += `, $${number + 1}`;
         newBody.push(file.path);
     }
-        
-    connection.query(`SELECT * FROM ${entity} WHERE email = $1`, [body.email], (error, result) => {
-        if (error) {
-            throw error;
-        }
-        if(result.rows.length >= 1){
-            return res.status(409).json({
-                message: 'Mail exists'
-            });
-        } else {
-            bcrypt.hash(body.password, 10, (err, hash) => {
-                if (err) {
-                    return res.status(500).json({
-                        error: "Error hash" + err
-                    })
-                } else {
-                    newBody[1] = hash;
-                    let query = `INSERT INTO ${entity} (${namesKeys}) values (${numbersKeys})`;                        
-                    connection.query(query, newBody, (error, result) => {
-                        if (error){
-                            throw error;
-                        }
-                        res.status(201).json({
-                            signup: 'success',
-                            [entity]: results.rows[0]
+    
+    return new Promise( (resolve, reject) => {
+        connection.query(`SELECT * FROM ${entity} WHERE email = $1`, [body.email], (error, result) => {
+            if (error) {
+                reject('error mail', error);
+            }
+            if(result.rows.length >= 1){
+                resolve({ message: 'Mail exists' });
+            } else {
+                bcrypt.hash(body.password, 10, (err, hash) => {
+                    if (err) {
+                        reject({error: "Error hash" + err });
+                    } else {
+                        newBody[1] = hash;
+                        let query = `INSERT INTO ${entity} (${namesKeys}) values (${numbersKeys}) RETURNING id`;                        
+                        connection.query(query, newBody, (error, results) => {
+                            if (error){
+                                reject('error insert', error);
+                            }
+                            resolve({
+                                signup: 'success',
+                                id: results.rows[0].id,
+                                [entity]: newBody
+                            });
                         });
-                    });
-                }
-            });
-                
-        }
-    });    
+                    }
+                });
+                    
+            }
+        });
+    })
+        
 }
 
 const signIn = (connection, entity, body, res) => {
