@@ -62,7 +62,9 @@ const signUpPatient =  (req, res) => {
 }
 
 const signInPatient = (req, res) => {
-    signIn(pool, 'patients', req.body, res);
+    signIn(pool, 'patients', req.body)
+        .then( response => response ? res.status(200).json(response) : res.status(500).json({ err : 'error'}))
+        .catch( err => {throw err} );
 }
 
 module.exports = {

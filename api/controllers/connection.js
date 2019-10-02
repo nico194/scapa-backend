@@ -4,7 +4,7 @@ const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
     database: 'scapa-backend',
-    password: '1234',
+    password: 'nico',
     port: 5432
 });
 

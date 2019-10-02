@@ -7,13 +7,14 @@ const getTutors = (req, res) => {
         .catch( err => { throw err});
 }
 
-const signUpTutor = (req, res) => {
-    signUp(pool, 'tutors', req.body, req.file, res);    
+const signUpTutor = async (req, res) => {
+    const response = await signUp(pool, 'tutors', req.body, req.file);
+    response ? res.status(200).json(response) : res.status(500).json({ err : 'error'});    
 }
 
-const signInTutor = (req, res) => {
-    console.log('request',req.body)
-    signIn(pool, 'tutors', req.body, res);
+const signInTutor = async (req, res) => {
+    const response = await signIn(pool, 'tutors', req.body);
+    response ? res.status(200).json(response) : res.status(500).json({ err : 'error'});
 }
 
 module.exports = {
