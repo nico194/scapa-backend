@@ -7,7 +7,7 @@ const getFolders = (req, res) => {
 }
 
 const getFoldersById = (req, res) => {    
-    getById('folders', Object.values(req.query)[0], Object.keys(req.query)[0])
+    getById('folders', parseInt(req.params.id))
         .then( folder => res.status(200).json(folder))
         .catch( err => { throw err });
 }

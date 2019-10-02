@@ -7,10 +7,12 @@ const getCategoriesFolder = (req, res) => {
 }
 
 const createCategoriesInFolder = async (req, res) => {
-    const idFolder = parseInt(req.body.folder_id);
+    console.log('body', req.body)
+    const idFolder = parseInt(req.body.idFolder);
     let categories = req.body.categories;
     console.log(categories, idFolder);
     for(let category of categories) {
+        console.log(category)
         await insert('categories_folder',
             {
                 folder_id: idFolder,

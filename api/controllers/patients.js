@@ -7,6 +7,12 @@ const getPatients = (req, res) => {
         .catch( err => { throw err });
 }
 
+const getPatientsById = (req, res) => {
+    getById('patients', parseInt(req.params.id))
+        .then( patients => res.status(200).json(patients) )
+        .catch( err => { throw err });
+}
+
 const getPatientsByTutor = (req, res) => {
     getById('patients', parseInt(req.params.id), 'tutor_id')
         .then( patients => res.status(200).json(patients) )
@@ -33,13 +39,13 @@ const signUpPatient =  (req, res) => {
                     tutor_id: tutorId
                 }
                 signUp(pool, 'patients', patient, req.file)
-                    .then( response => {
+                    .then( patient => {
                         const folder = {
-                            pacient_id: response.id,
+                            patient_id: patient.id,
                             tutor_id : tutorId
                         }
                         insert('folders', folder)
-                            .then( response => response ? res.status(200).json(response) : res.status(500).json({ err : 'error'}))
+                            .then( response => response ? res.status(200).json(patient) : res.status(500).json({ err : 'error'}))
                             .catch( err => console.log('error folder',err))
                     })
                     .catch( err => console.log('error user',err))
@@ -49,7 +55,7 @@ const signUpPatient =  (req, res) => {
         signUp(pool, 'patients', req.body, req.file)
             .then( response => {
                 const folder = {
-                    pacient_id: response.id,
+                    patient_id: response.id,
                     tutor_id : 8
                 }
                 insert('folders', folder)
@@ -69,6 +75,7 @@ const signInPatient = (req, res) => {
 
 module.exports = {
     getPatients,
+    getPatientsById,
     getPatientsByTutor,
     unlinkPatient,
     signUpPatient,
