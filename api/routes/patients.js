@@ -9,6 +9,7 @@ router.get('/', patients.getPatients);
 router.get('/:id', patients.getPatientsById);
 router.get('/tutor/:id', patients.getPatientsByTutor);
 router.put('/tutor/:id', patients.unlinkPatient);
+router.put('/voice/:id', patients.changeAssistantVoice);
 router.post('/signup', upload.single('patientImage'), patients.signUpPatient);
 router.post('/signin', patients.signInPatient);
 

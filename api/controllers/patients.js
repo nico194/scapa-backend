@@ -25,6 +25,12 @@ const unlinkPatient = (req, res) => {
         .catch( err => { throw err; })
 }
 
+const changeAssistantVoice = (req, res) => {
+    update('patients', parseInt(req.params.id), req.body)
+        .then( response => response ? res.status(200).json({ message: 'Change voice assistant'}) : res.status(500).json({ err : 'error'}))
+        .catch( err => { throw err; })
+}
+
 const signUpPatient =  (req, res) => {
     if(req.body.tutorEmail) {
         getById('tutors', req.body.tutorEmail, 'email')
@@ -78,6 +84,7 @@ module.exports = {
     getPatientsById,
     getPatientsByTutor,
     unlinkPatient,
+    changeAssistantVoice,
     signUpPatient,
     signInPatient,
 };
