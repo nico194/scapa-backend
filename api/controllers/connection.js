@@ -110,16 +110,34 @@ const update = (entity, id, body, file) => {
     });
 }
 
-const del = (entity, id) => {
+const del = (entity, params) => {
     if(entity === 'pictograms' || entity === 'tutors' || entity === 'patients') {
-        getById(entity, id)
+        getById(entity, params)
             .then( data => {
                 fs.unlinkSync(data[0].image);
             })
             .catch(err => { throw err })
     }
+
+    let conditions = '';
+    let number = 0;
+    let first = true;
+    Object.keys(params).forEach((condition, index) => {
+        number = index + 1;
+        console.log(`${condition} = $${number}`)
+        if (first) {
+            first = false;
+            conditions = `${condition} = $${number}`;
+        } else {
+            conditions += ` AND ${condition} = $${number}`;
+        }
+    })
+
+    const query = `DELETE FROM ${entity} WHERE ${conditions}`;
+    console.log('Query: ', query)
+    console.log('values', Object.values(params));
     return new Promise(function(resolve, reject){
-        pool.query(`DELETE FROM ${entity} WHERE id = $1`, [id], (err, result) => {
+        pool.query(query, Object.values(params), (err, result) => {
             if(err) {
                 reject(err);
             }

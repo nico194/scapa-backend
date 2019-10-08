@@ -12,6 +12,7 @@ const getFoldersById = (req, res) => {
         .catch( err => { throw err });
 }
 
+
 const createFolders = (req, res) => {
     insert('folders', req.body)
         .then( response => response ? res.status(200).json({ insert: 'success' }) : res.status(501).json({ insert: 'failure' }))
