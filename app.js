@@ -7,8 +7,9 @@ const categoriesRouter = require('./api/routes/categories');
 const pictogramsRouter = require('./api/routes/pictograms');
 const tutorsRouter = require('./api/routes/tutors');
 const patientsRouter = require('./api/routes/patients');
-const fordersRouter = require('./api/routes/folders');
+const foldersRouter = require('./api/routes/folders');
 const categoriesInFolderRouter = require('./api/routes/categories-folder');
+const phrasesRouter = require('./api/routes/phrases')
 
 app.use('/public', express.static('public'));
 app.use(bodyParser.urlencoded({extended: false}));
@@ -36,8 +37,9 @@ app.use('/categories', categoriesRouter);
 app.use('/pictograms', pictogramsRouter);
 app.use('/tutors', tutorsRouter);
 app.use('/patients', patientsRouter);
-app.use('/folders', fordersRouter);
+app.use('/folders', foldersRouter);
 app.use('/categories-folder', categoriesInFolderRouter);
+app.use('/phrases', phrasesRouter);
 
 
 app.use((req, res, next) =>{
