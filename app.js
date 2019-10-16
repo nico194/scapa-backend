@@ -5,8 +5,7 @@ const morgan = require('morgan');
 
 const categoriesRouter = require('./api/routes/categories');
 const pictogramsRouter = require('./api/routes/pictograms');
-const tutorsRouter = require('./api/routes/tutors');
-const patientsRouter = require('./api/routes/patients');
+const usersRouter = require('./api/routes/users');
 const foldersRouter = require('./api/routes/folders');
 const categoriesInFolderRouter = require('./api/routes/categories-folder');
 const phrasesRouter = require('./api/routes/phrases')
@@ -35,8 +34,7 @@ app.get('/', function(req, res){
 
 app.use('/categories', categoriesRouter);
 app.use('/pictograms', pictogramsRouter);
-app.use('/tutors', tutorsRouter);
-app.use('/patients', patientsRouter);
+app.use('/users', usersRouter);
 app.use('/folders', foldersRouter);
 app.use('/categories-folder', categoriesInFolderRouter);
 app.use('/phrases', phrasesRouter);

@@ -1,4 +1,6 @@
 const Pool = require('pg').Pool;
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const pool = new Pool({
     user: 'postgres',
@@ -15,7 +17,7 @@ const get = (entity, columns = '*') => {
                 reject(err);
             }
             resolve(results.rows);
-        }); 
+        });
     });
 }
 
@@ -28,7 +30,7 @@ const getById = (entity, id, findBy = 'id', columns = '*') => {
             }
             console.log('get: ', results.rows)
             resolve(results.rows);
-        }); 
+        });
     });
 }
 
@@ -47,18 +49,21 @@ const insert = (entity, body, file) => {
             namesKeys += ', ' + name
             numbersKeys += `, $${number}`
         }
-            
     });
-        
+
     const newBody = Object.values(body);
+
     if(file) {
         namesKeys += ', image';
         numbersKeys += `, $${number + 1}`
         newBody.push(file.path);
     }
+
     console.log('new body: ', newBody)
+
     let query = `INSERT INTO ${entity} (${namesKeys}) values (${numbersKeys}) RETURNING id`;
     console.log('Insert Query: ', query);
+
     return new Promise(function(resolve, reject){
         pool.query(query, newBody, (err, result) => {
             if(err) {
@@ -70,12 +75,11 @@ const insert = (entity, body, file) => {
                 path: file? file.path : ''
             }
             resolve(response);
-        }); 
-    });   
+        });
+    });
 }
 
 const update = (entity, id, body, file) => {
-    console.log(body)
     let first = true;
     let namesAndNumbersKeys = '';
     let number = 0;
@@ -90,13 +94,15 @@ const update = (entity, id, body, file) => {
     });
 
     const newBody = Object.values(body);
-    
+
     if(file) {
         namesAndNumbersKeys += `, image = $${number + 1}`;
         newBody.push(file.path);
     }
-    
+
     newBody.push(id);
+
+    console.log('new body: ', newBody)
 
     let query = `UPDATE ${entity} SET ${namesAndNumbersKeys} WHERE id = $${number + 1}`;
     console.log('Update Query: ', query);
@@ -106,12 +112,12 @@ const update = (entity, id, body, file) => {
                 reject(err);
             }
             resolve(true);
-        }); 
+        });
     });
 }
 
 const del = (entity, params) => {
-    if(entity === 'pictograms' || entity === 'tutors' || entity === 'patients') {
+    if(entity === 'pictograms' || entity === 'users') {
         getById(entity, params)
             .then( data => {
                 fs.unlinkSync(data[0].image);
@@ -146,13 +152,126 @@ const del = (entity, params) => {
     });
 }
 
+const signUp = (entity, body, file) => {
+    console.log('Body: ', body)
+    console.log('File: ', file)
+    let first = true;
+    let namesKeys = '';
+    let numbersKeys = '';
+    let number = 0;
+    Object.keys(body).forEach( (name, index) => {
+        number = index + 1;
+        if (first) {
+            first = false;
+            namesKeys = name;
+            numbersKeys = `$${number}`;
+        } else {
+            namesKeys += ', ' + name;
+            numbersKeys += `, $${number}`;
+        }
+            
+    });
+        
+    const newBody = Object.values(body);
+
+    if(file) {
+        namesKeys += ', image';
+        numbersKeys += `, $${number + 1}`;
+        newBody.push(file.path);
+    }
+    
+    return new Promise( (resolve, reject) => {
+        pool.query(`SELECT * FROM ${entity} WHERE email = $1`, [body.email], (error, result) => {
+            if (error) {
+                reject('error mail', error);
+            }
+            if(result.rows.length >= 1){
+                resolve({ message: 'Mail exists' });
+            } else {
+                bcrypt.hash(body.password, 10, (err, hash) => {
+                    if (err) {
+                        resolve({error: "Error hash" + err });
+                    } else {
+                        const index = newBody.findIndex(pass => pass === body.password);
+                        newBody[index] = hash;
+                        console.log('newBody, index ',body, index)
+                        let query = `INSERT INTO ${entity} (${namesKeys}) values (${numbersKeys}) RETURNING id`;                        
+                        console.log('Query: ', query);
+                        connection.query(query, newBody, (error, results) => {
+                            if (error){
+                                reject('error insert', error);
+                            }
+                            resolve({
+                                signup: 'success',
+                                id: results.rows[0].id,
+                                path: file? file.path : '',
+                                [entity]: newBody
+                            });
+                        });
+                    }
+                });
+                    
+            }
+        });
+    })
+        
+}
+
+const signIn = (entity, body) => {
+    const { email, password } = body;
+    console.log('Body: ', body)
+    return new Promise((resolve, reject) => {
+        pool.query(`SELECT * FROM ${entity} WHERE email = $1`, [email], (error, results) => {
+            if(error) {
+                reject(error);
+            }
+            if (results.rows.length < 1) {
+                resolve({
+                    message: 'Authentication Failed - Mail doesn\'t exsist'
+                });
+            }
+            bcrypt.compare(password, results.rows[0].password, (err, login) => {
+                if (err) {
+                    resolve({
+                        message: 'Authentication Failed - Error bcrypt'
+                    });
+                }
+                if (login) {
+                    const token = jwt.sign(
+                        {
+                            email: results.rows[0].email,
+                            id: results.rows[0].id
+                        },
+                        'secret',
+                        {
+                            expiresIn: '1h'
+                        }
+                    );
+                    resolve({
+                        message: 'Authentication Success',
+                        token: token,
+                        [entity]: results.rows[0]
+                    });
+                } else {
+                    resolve({
+                        message: 'Authentication Failed - Password'
+                    });
+                }    
+            });    
+        });
+    })
+    
+}
+
 const connection = {
     pool,
     get,
     getById,
     insert,
     update,
-    del
+    del,
+    signUp,
+    signIn,
 }
 
 module.exports = connection;

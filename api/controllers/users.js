@@ -1,26 +1,25 @@
-const { signUp, signIn } = require('./auth');
-const { pool, get, getById, insert, update } = require('../controllers/connection');
+const { get, getById, insert, update, signIn, signUp } = require('./connection');
 
-const getPatients = (req, res) => {
-    get('patients')
-        .then( patients => res.status(200).json(patients) )
+const getUsers = (req, res) => {
+    get('users')
+        .then( users => res.status(200).json(users) )
         .catch( err => { throw err });
 }
 
-const getPatientsById = (req, res) => {
-    getById('patients', parseInt(req.params.id))
-        .then( patients => res.status(200).json(patients) )
+const getUserById = (req, res) => {
+    getById('users', parseInt(req.params.id))
+        .then( users => res.status(200).json(users) )
         .catch( err => { throw err });
 }
 
 const getPatientsByTutor = (req, res) => {
-    getById('patients', parseInt(req.params.id), 'tutor_id')
-        .then( patients => res.status(200).json(patients) )
+    getById('users', parseInt(req.params.id), 'tutor_id')
+        .then( users => res.status(200).json(users) )
         .catch( err => { throw err });
 }
 
 const unlinkPatient = (req, res) => {
-    update('patients', parseInt(req.params.id), req.body)
+    update('users', parseInt(req.params.id), req.body)
         .then( response => response ? res.status(200).json({ message: 'Unlink success'}) : res.status(500).json({ err : 'error'}))
         .catch( err => { throw err; })
 }
@@ -31,9 +30,9 @@ const changeAssistantVoice = (req, res) => {
         .catch( err => { throw err; })
 }
 
-const signUpPatient =  (req, res) => {
+const signUpUser =  (req, res) => {
     if(req.body.tutorEmail) {
-        getById('tutors', req.body.tutorEmail, 'email')
+        getById('users', req.body.tutorEmail, 'email')
             .then( response => {
                 const tutorId = response[0].id
                 const patient = {
@@ -44,7 +43,7 @@ const signUpPatient =  (req, res) => {
                     voice: req.body.voice,
                     tutor_id: tutorId
                 }
-                signUp(pool, 'patients', patient, req.file)
+                signUp('users', patient, req.file)
                     .then( patient => {
                         const folder = {
                             patient_id: patient.id,
@@ -58,11 +57,10 @@ const signUpPatient =  (req, res) => {
             })
             .catch( err => console.log('error tutor',err))
     } else {
-        signUp(pool, 'patients', req.body, req.file)
+        signUp('users', req.body, req.file)
             .then( response => {
                 const folder = {
                     patient_id: response.id,
-                    tutor_id : 8
                 }
                 insert('folders', folder)
                     .then( response => response ? res.status(200).json(response) : res.status(500).json({ err : 'error'}))
@@ -73,18 +71,18 @@ const signUpPatient =  (req, res) => {
     
 }
 
-const signInPatient = (req, res) => {
-    signIn(pool, 'patients', req.body)
+const signInUser = (req, res) => {
+    signIn('users', req.body)
         .then( response => response ? res.status(200).json(response) : res.status(500).json({ err : 'error'}))
         .catch( err => {throw err} );
 }
 
 module.exports = {
-    getPatients,
-    getPatientsById,
+    getUsers,
+    getUserById,
     getPatientsByTutor,
     unlinkPatient,
     changeAssistantVoice,
-    signUpPatient,
-    signInPatient,
+    signUpUser,
+    signInUser,
 };
