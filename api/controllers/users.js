@@ -25,50 +25,58 @@ const unlinkPatient = (req, res) => {
 }
 
 const changeAssistantVoice = (req, res) => {
-    update('patients', parseInt(req.params.id), req.body)
+    update('users', parseInt(req.params.id), req.body)
         .then( response => response ? res.status(200).json({ message: 'Change voice assistant'}) : res.status(500).json({ err : 'error'}))
         .catch( err => { throw err; })
 }
 
-const signUpUser =  (req, res) => {
-    if(req.body.tutorEmail) {
-        getById('users', req.body.tutorEmail, 'email')
-            .then( response => {
-                const tutorId = response[0].id
-                const patient = {
-                    email: req.body.email,
-                    password: req.body.password,
-                    name: req.body.name,
-                    birthday: req.body.birthday,
-                    voice: req.body.voice,
-                    tutor_id: tutorId
-                }
-                signUp('users', patient, req.file)
-                    .then( patient => {
-                        const folder = {
-                            patient_id: patient.id,
-                            tutor_id : tutorId
-                        }
-                        insert('folders', folder)
-                            .then( response => response ? res.status(200).json(patient) : res.status(500).json({ err : 'error'}))
-                            .catch( err => console.log('error folder',err))
-                    })
-                    .catch( err => console.log('error user',err))
-            })
-            .catch( err => console.log('error tutor',err))
-    } else {
+const signUpUser = async (req, res) => {
+    console.log(req.body.type_user)
+
+    if(req.body.type_user === 'tutor' || req.body.type_user === 'admin') {
         signUp('users', req.body, req.file)
-            .then( response => {
-                const folder = {
-                    patient_id: response.id,
-                }
-                insert('folders', folder)
-                    .then( response => response ? res.status(200).json(response) : res.status(500).json({ err : 'error'}))
-                    .catch( err => console.log('error folder',err))
-            })
-            .catch( err => console.log('error user',err))
-    }
-    
+            .then( response => response ? res.status(200).json(response) : res.status(500).json({ err : 'error'}))
+            .catch( err => console.log('error tutor', err));
+    } else if( req.body.type_user === 'patient' ) {
+        if(req.body.tutorEmail) {
+            getById('users', req.body.tutorEmail, 'email')
+                .then( tutor => {
+                    const idTutor = tutor[0].id;
+                    const user = {
+                        email: req.body.email,
+                        password: req.body.password,
+                        name: req.body.name,
+                        birthday: req.body.birthday,
+                        voice: req.body.voice,
+                        tutor_id: idTutor,
+                        type_user: req.body.type_user
+                    }
+                    signUp('users', user, req.file)
+                        .then( patient => {
+                            const folder = {
+                                patient_id: patient.id,
+                                tutor_id : tutorId
+                            }
+                            insert('folders', folder)
+                                .then( response => response ? res.status(200).json(patient) : res.status(200).json({ err : 'error'}))
+                                .catch( err => console.log('error folder',err))
+                        })
+                        .catch( err => console.log('error user',err))
+                        })
+                .catch( err => console.log('error tutor',err))
+        }else {
+            signUp('users', req.body, req.file)
+                .then( response => {
+                    const folder = {
+                        patient_id: response.id,
+                    }
+                    insert('folders', folder)
+                        .then( response => response ? res.status(200).json(response) : res.status(500).json({ err : 'error'}))
+                        .catch( err => console.log('error folder',err))
+                })
+                .catch( err => console.log('error user',err))
+        }
+    }   
 }
 
 const signInUser = (req, res) => {

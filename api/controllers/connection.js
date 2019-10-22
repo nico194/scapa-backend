@@ -194,18 +194,19 @@ const signUp = (entity, body, file) => {
                     } else {
                         const index = newBody.findIndex(pass => pass === body.password);
                         newBody[index] = hash;
-                        console.log('newBody, index ',body, index)
+                        console.log('newBody, index ',newBody, index)
                         let query = `INSERT INTO ${entity} (${namesKeys}) values (${numbersKeys}) RETURNING id`;                        
                         console.log('Query: ', query);
-                        connection.query(query, newBody, (error, results) => {
+                        pool.query(query, newBody, (error, results) => {
                             if (error){
                                 reject('error insert', error);
                             }
+                            console.log(results)
                             resolve({
                                 signup: 'success',
                                 id: results.rows[0].id,
                                 path: file? file.path : '',
-                                [entity]: newBody
+                                user: newBody
                             });
                         });
                     }
@@ -220,6 +221,7 @@ const signUp = (entity, body, file) => {
 const signIn = (entity, body) => {
     const { email, password } = body;
     console.log('Body: ', body)
+    console.log(entity)
     return new Promise((resolve, reject) => {
         pool.query(`SELECT * FROM ${entity} WHERE email = $1`, [email], (error, results) => {
             if(error) {
@@ -230,6 +232,7 @@ const signIn = (entity, body) => {
                     message: 'Authentication Failed - Mail doesn\'t exsist'
                 });
             }
+            console.log('results', results)
             bcrypt.compare(password, results.rows[0].password, (err, login) => {
                 if (err) {
                     resolve({
@@ -250,7 +253,7 @@ const signIn = (entity, body) => {
                     resolve({
                         message: 'Authentication Success',
                         token: token,
-                        [entity]: results.rows[0]
+                        user: results.rows[0]
                     });
                 } else {
                     resolve({
@@ -264,7 +267,6 @@ const signIn = (entity, body) => {
 }
 
 const connection = {
-    pool,
     get,
     getById,
     insert,
