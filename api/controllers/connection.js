@@ -9,7 +9,7 @@ const pool = new Pool({
     password: '53e97141f1fb8bf8afed76cd132509c7dacbfdf4e34c5d2318b351a6d5ae06e9',
     port: 5432
 });
-
+ 
 const get = (entity, columns = '*') => {
     return new Promise(function(resolve, reject){
         pool.query(`SELECT ${columns} FROM ${entity}`, (err, results) => {
