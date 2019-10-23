@@ -3,23 +3,23 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
 
-// const localConfigurarion = {
-//     user: 'postgres',
-//     host: 'localhost',
-//     database: 'scapa-backend',
-//     password: '1234',
-//     port: 5432
-// }
-
-const herokuConfigurarion = {
-    user: 'lizangklvfjvxw',
-    host: 'ec2-54-235-180-123.compute-1.amazonaws.com',
-    database: 'dc09u22c82s9et',
-    password: '53e97141f1fb8bf8afed76cd132509c7dacbfdf4e34c5d2318b351a6d5ae06e9',
+const localConfigurarion = {
+    user: 'postgres',
+    host: 'localhost',
+    database: 'scapa-backend',
+    password: '1234',
     port: 5432
 }
 
-const pool = new Pool(herokuConfigurarion);
+// const herokuConfigurarion = {
+//     user: 'lizangklvfjvxw',
+//     host: 'ec2-54-235-180-123.compute-1.amazonaws.com',
+//     database: 'dc09u22c82s9et',
+//     password: '53e97141f1fb8bf8afed76cd132509c7dacbfdf4e34c5d2318b351a6d5ae06e9',
+//     port: 5432
+// }
+
+const pool = new Pool(localConfigurarion);
  
 const get = (entity, columns = '*') => {
     return new Promise(function(resolve, reject){
