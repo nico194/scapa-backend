@@ -158,7 +158,7 @@ const del = (entity, params) => {
             if(err) {
                 reject(err);
             }
-            resolve(true);
+            resolve(result);
         });
     });
 }
@@ -231,8 +231,7 @@ const signUp = (entity, body, file) => {
 
 const signIn = (entity, body) => {
     const { email, password } = body;
-    console.log('Body: ', body)
-    console.log(entity)
+    console.log('Body: ', body.email)
     return new Promise((resolve, reject) => {
         pool.query(`SELECT * FROM ${entity} WHERE email = $1`, [email], (error, results) => {
             if(error) {

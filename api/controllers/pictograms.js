@@ -36,8 +36,8 @@ const updatePictogram = (req, res) => {
 }
 
 const deletePictogram = (req, res) => {
-    del('pictograms', parseInt(req.params.id))
-        .then( response => response ? res.status(200).json({ delete: 'success' }) : res.status(501).json({ delete: 'failure' }))
+    del('pictograms', req.params)
+        .then( response => response ? res.status(200).json({ delete: response }) : res.status(501).json({ delete: 'failure' }))
         .catch( err => { throw err });
 }
 

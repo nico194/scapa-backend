@@ -26,7 +26,7 @@ const updateFolders = (req, res) => {
 }
 
 const deleteFolders = (req, res) => {
-    del('folders', parseInt(req.params.id))
+    del('folders', req.params)
         .then( response => response ? res.status(200).json({ delete: 'success' }) : res.status(501).json({ delete: 'failure' }))
         .catch( err => { throw err });
 }

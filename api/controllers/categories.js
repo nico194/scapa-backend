@@ -39,7 +39,7 @@ const updateCategory = (req, res) => {
 }
 
 const deleteCategory = (req, res) => {
-    del('categories', parseInt(req.params.id))
+    del('categories', req.params)
         .then( response => response ? res.status(200).json({ delete: 'success' }) : res.status(501).json({ delete: 'failure' }))
         .catch( err => { throw err });
 }
