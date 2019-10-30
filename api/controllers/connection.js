@@ -129,7 +129,7 @@ const update = (entity, id, body, file) => {
 
 const del = (entity, params) => {
     if(entity === 'pictograms' || entity === 'users') {
-        getById(entity, params)
+        getById(entity, params.id)
             .then( data => {
                 fs.unlinkSync(data[0].image);
             })
@@ -158,7 +158,7 @@ const del = (entity, params) => {
             if(err) {
                 reject(err);
             }
-            resolve(result);
+            resolve(true);
         });
     });
 }
@@ -210,6 +210,7 @@ const signUp = (entity, body, file) => {
                         console.log('Query: ', query);
                         pool.query(query, newBody, (error, results) => {
                             if (error){
+                                console.log('error insert', error)
                                 reject('error insert', error);
                             }
                             console.log(results)

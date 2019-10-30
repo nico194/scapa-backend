@@ -31,7 +31,7 @@ const changeAssistantVoice = (req, res) => {
 }
 
 const signUpUser = async (req, res) => {
-    console.log(req.body.type_user)
+    console.log('type user', req.body.type_user)
 
     if(req.body.type_user === 'tutor' || req.body.type_user === 'admin') {
         signUp('users', req.body, req.file)
