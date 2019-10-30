@@ -1,4 +1,4 @@
-const { get, getById, insert, update, signIn, signUp } = require('./connection');
+const { get, getById, insert, update, signIn, signUp, del } = require('./connection');
 
 const getUsers = (req, res) => {
     get('users')
@@ -55,7 +55,7 @@ const signUpUser = async (req, res) => {
                         .then( patient => {
                             const folder = {
                                 patient_id: patient.id,
-                                tutor_id : tutorId
+                                tutor_id : idTutor
                             }
                             insert('folders', folder)
                                 .then( response => response ? res.status(200).json(patient) : res.status(200).json({ err : 'error'}))
@@ -85,6 +85,12 @@ const signInUser = (req, res) => {
         .catch( err => {throw err} );
 }
 
+const deleteUser = (req, res) => {
+    del('users', req.params)
+        .then( response => response ? res.status(200).json({ delete: 'success' }) : res.status(501).json({ delete: 'failure' }))
+        .catch( err => { throw err });
+}
+
 module.exports = {
     getUsers,
     getUserById,
@@ -93,4 +99,5 @@ module.exports = {
     changeAssistantVoice,
     signUpUser,
     signInUser,
+    deleteUser
 };

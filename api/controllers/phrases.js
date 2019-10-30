@@ -7,10 +7,13 @@ const getPhrases = (req, res) => {
 }
 
 const createPhrases = async (req, res) => {
-    const response = await insert('phrases', { type: req.body.type })
-    const idPhrase = response.id;
+    const folder = await getById('folders', req.params.id, 'patient_id', 'id');
+    const idFolder = folder[0].id;
+    const phrase = await insert('phrases', { type: req.body.type })
+    const idPhrase = phrase.id;
+    await insert('phrases-folder', { folder_id: idFolder, phrase_id: idPhrase });
     let pictograms = req.body.pictograms;
-    console.log('add categories: ', pictograms)
+    console.log('add pictograms: ', pictograms)
     let newPictograms = [];
     console.log(pictograms, idPhrase);
     for(let pictogram of pictograms) {

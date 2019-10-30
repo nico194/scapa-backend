@@ -12,6 +12,7 @@ router.put('/tutor/:id', users.unlinkPatient);
 router.put('/voice/:id', users.changeAssistantVoice);
 router.post('/signup', upload.single('userImage'), users.signUpUser);
 router.post('/signin', users.signInUser);
+router.delete('/:id', users.deleteUser);
 
 module.exports = router;
 
