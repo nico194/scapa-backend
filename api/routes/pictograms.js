@@ -8,6 +8,7 @@ const pictograms = require('../controllers/pictograms');
 router.get('/', pictograms.getPictograms);
 router.get('/:id', pictograms.getPictogramsById);
 router.get('/category/:id', pictograms.getPictogramsByCategoryId);
+router.get('/patient/:id', pictograms.getPictogramsByPatientId);
 router.post('/', upload.single('pictogramImage'), pictograms.createPictogram);
 router.put('/:id', pictograms.updatePictogram);
 router.delete('/:id', pictograms.deletePictogram);

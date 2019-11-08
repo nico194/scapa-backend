@@ -18,8 +18,22 @@ const getPictogramsByCategoryId = (req, res) => {
         .catch( err => { throw err });
 }
 
-const getPictogramsByPhraseId = (req, res) => {
-    
+const getPictogramsByPatientId = async (req, res) => {
+    const folders = await getById('folders', parseInt(req.params.id), 'patient_id', 'id');
+    const idFolder = folders[0].id;
+    console.log('idFolder', idFolder)
+    let categories = [];
+    const categoriesIds = await getById('categories_folder', idFolder , 'folder_id', 'category_id')
+    for(const id of categoriesIds){
+        const category = await getById('categories', id.category_id, 'id');
+        categories.push(category[0]);
+    }
+    let pictograms = [];
+    for(const category of categories){
+        const pictogramsInCategory = await getById('pictograms', category.id, 'category_id');
+        pictograms = pictograms.concat(pictogramsInCategory);
+    }
+    res.status(200).json(pictograms)
 }
 
 const createPictogram = (req, res) => {
@@ -45,6 +59,7 @@ module.exports = {
     getPictograms,
     getPictogramsById,
     getPictogramsByCategoryId,
+    getPictogramsByPatientId,
     createPictogram,
     updatePictogram,
     deletePictogram
