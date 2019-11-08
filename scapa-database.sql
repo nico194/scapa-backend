@@ -2,10 +2,10 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 10.10
--- Dumped by pg_dump version 10.10
+-- Dumped from database version 10.7
+-- Dumped by pg_dump version 10.7
 
--- Started on 2019-10-23 14:52:55
+-- Started on 2019-11-07 22:46:28
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -14,7 +14,6 @@ SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
-SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
@@ -224,7 +223,7 @@ ALTER SEQUENCE public.pacient_id_seq OWNED BY public.users.id;
 
 
 --
--- TOC entry 204 (class 1259 OID 16428)
+-- TOC entry 213 (class 1259 OID 16611)
 -- Name: pending_requests; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -239,7 +238,7 @@ CREATE TABLE public.pending_requests (
 ALTER TABLE public.pending_requests OWNER TO postgres;
 
 --
--- TOC entry 205 (class 1259 OID 16431)
+-- TOC entry 212 (class 1259 OID 16609)
 -- Name: pending_requests_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -256,7 +255,7 @@ ALTER TABLE public.pending_requests_id_seq OWNER TO postgres;
 
 --
 -- TOC entry 2932 (class 0 OID 0)
--- Dependencies: 205
+-- Dependencies: 212
 -- Name: pending_requests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -264,7 +263,7 @@ ALTER SEQUENCE public.pending_requests_id_seq OWNED BY public.pending_requests.i
 
 
 --
--- TOC entry 206 (class 1259 OID 16433)
+-- TOC entry 204 (class 1259 OID 16428)
 -- Name: phrases; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -280,7 +279,7 @@ CREATE TABLE public.phrases (
 ALTER TABLE public.phrases OWNER TO postgres;
 
 --
--- TOC entry 207 (class 1259 OID 16441)
+-- TOC entry 211 (class 1259 OID 16565)
 -- Name: phrases_folder; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -294,7 +293,7 @@ CREATE TABLE public.phrases_folder (
 ALTER TABLE public.phrases_folder OWNER TO postgres;
 
 --
--- TOC entry 208 (class 1259 OID 16444)
+-- TOC entry 210 (class 1259 OID 16563)
 -- Name: phrases_folder_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -311,7 +310,7 @@ ALTER TABLE public.phrases_folder_id_seq OWNER TO postgres;
 
 --
 -- TOC entry 2933 (class 0 OID 0)
--- Dependencies: 208
+-- Dependencies: 210
 -- Name: phrases_folder_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -319,7 +318,7 @@ ALTER SEQUENCE public.phrases_folder_id_seq OWNED BY public.phrases_folder.id;
 
 
 --
--- TOC entry 209 (class 1259 OID 16446)
+-- TOC entry 205 (class 1259 OID 16436)
 -- Name: phrases_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -336,7 +335,7 @@ ALTER TABLE public.phrases_id_seq OWNER TO postgres;
 
 --
 -- TOC entry 2934 (class 0 OID 0)
--- Dependencies: 209
+-- Dependencies: 205
 -- Name: phrases_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -344,7 +343,7 @@ ALTER SEQUENCE public.phrases_id_seq OWNED BY public.phrases.id;
 
 
 --
--- TOC entry 210 (class 1259 OID 16448)
+-- TOC entry 206 (class 1259 OID 16438)
 -- Name: pictograms_phrase; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -360,7 +359,7 @@ CREATE TABLE public.pictograms_phrase (
 ALTER TABLE public.pictograms_phrase OWNER TO postgres;
 
 --
--- TOC entry 211 (class 1259 OID 16453)
+-- TOC entry 207 (class 1259 OID 16443)
 -- Name: phrases_pictograms_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -377,7 +376,7 @@ ALTER TABLE public.phrases_pictograms_id_seq OWNER TO postgres;
 
 --
 -- TOC entry 2935 (class 0 OID 0)
--- Dependencies: 211
+-- Dependencies: 207
 -- Name: phrases_pictograms_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -385,7 +384,7 @@ ALTER SEQUENCE public.phrases_pictograms_id_seq OWNED BY public.pictograms_phras
 
 
 --
--- TOC entry 212 (class 1259 OID 16455)
+-- TOC entry 208 (class 1259 OID 16445)
 -- Name: pictograms; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -403,7 +402,7 @@ CREATE TABLE public.pictograms (
 ALTER TABLE public.pictograms OWNER TO postgres;
 
 --
--- TOC entry 213 (class 1259 OID 16463)
+-- TOC entry 209 (class 1259 OID 16453)
 -- Name: pictograms_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -420,7 +419,7 @@ ALTER TABLE public.pictograms_id_seq OWNER TO postgres;
 
 --
 -- TOC entry 2936 (class 0 OID 0)
--- Dependencies: 213
+-- Dependencies: 209
 -- Name: pictograms_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -428,7 +427,7 @@ ALTER SEQUENCE public.pictograms_id_seq OWNED BY public.pictograms.id;
 
 
 --
--- TOC entry 2725 (class 2604 OID 16465)
+-- TOC entry 2725 (class 2604 OID 16463)
 -- Name: categories id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -436,7 +435,7 @@ ALTER TABLE ONLY public.categories ALTER COLUMN id SET DEFAULT nextval('public.c
 
 
 --
--- TOC entry 2728 (class 2604 OID 16466)
+-- TOC entry 2728 (class 2604 OID 16464)
 -- Name: categories_folder id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -444,7 +443,7 @@ ALTER TABLE ONLY public.categories_folder ALTER COLUMN id SET DEFAULT nextval('p
 
 
 --
--- TOC entry 2731 (class 2604 OID 16467)
+-- TOC entry 2731 (class 2604 OID 16465)
 -- Name: folders id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -452,7 +451,7 @@ ALTER TABLE ONLY public.folders ALTER COLUMN id SET DEFAULT nextval('public.fold
 
 
 --
--- TOC entry 2734 (class 2604 OID 16468)
+-- TOC entry 2744 (class 2604 OID 16614)
 -- Name: pending_requests id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -460,7 +459,7 @@ ALTER TABLE ONLY public.pending_requests ALTER COLUMN id SET DEFAULT nextval('pu
 
 
 --
--- TOC entry 2737 (class 2604 OID 16469)
+-- TOC entry 2736 (class 2604 OID 16467)
 -- Name: phrases id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -468,7 +467,7 @@ ALTER TABLE ONLY public.phrases ALTER COLUMN id SET DEFAULT nextval('public.phra
 
 
 --
--- TOC entry 2738 (class 2604 OID 16470)
+-- TOC entry 2743 (class 2604 OID 16568)
 -- Name: phrases_folder id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -476,7 +475,7 @@ ALTER TABLE ONLY public.phrases_folder ALTER COLUMN id SET DEFAULT nextval('publ
 
 
 --
--- TOC entry 2744 (class 2604 OID 16471)
+-- TOC entry 2742 (class 2604 OID 16469)
 -- Name: pictograms id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -484,7 +483,7 @@ ALTER TABLE ONLY public.pictograms ALTER COLUMN id SET DEFAULT nextval('public.p
 
 
 --
--- TOC entry 2741 (class 2604 OID 16472)
+-- TOC entry 2739 (class 2604 OID 16468)
 -- Name: pictograms_phrase id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -492,7 +491,7 @@ ALTER TABLE ONLY public.pictograms_phrase ALTER COLUMN id SET DEFAULT nextval('p
 
 
 --
--- TOC entry 2733 (class 2604 OID 16473)
+-- TOC entry 2733 (class 2604 OID 16466)
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -506,6 +505,10 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.pacien
 --
 
 COPY public.categories (id, description, created_at, updated_at) FROM stdin;
+75	Acciones	2019-10-24 16:02:20.268016+00	2019-10-24 16:02:20.268016+00
+76	Alimentos	2019-10-24 16:04:02.531897+00	2019-10-24 16:04:02.531897+00
+77	Colores	2019-10-24 16:04:41.627809+00	2019-10-24 16:04:41.627809+00
+78	Electrodomesticos	2019-10-24 16:05:16.933473+00	2019-10-24 16:05:36.000076+00
 \.
 
 
@@ -516,6 +519,8 @@ COPY public.categories (id, description, created_at, updated_at) FROM stdin;
 --
 
 COPY public.categories_folder (id, created_at, updated_at, category_id, folder_id) FROM stdin;
+96	2019-11-04 19:56:47.213861+00	2019-11-04 19:56:47.213861+00	78	10
+95	2019-10-30 19:13:48.278926+00	2019-10-30 19:13:48.278926+00	76	10
 \.
 
 
@@ -526,12 +531,13 @@ COPY public.categories_folder (id, created_at, updated_at, category_id, folder_i
 --
 
 COPY public.folders (id, created_at, updated_at, patient_id, tutor_id) FROM stdin;
+10	2019-10-30 18:23:40.926741+00	2019-10-30 18:23:40.926741+00	32	24
 \.
 
 
 --
--- TOC entry 2910 (class 0 OID 16428)
--- Dependencies: 204
+-- TOC entry 2919 (class 0 OID 16611)
+-- Dependencies: 213
 -- Data for Name: pending_requests; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -540,42 +546,56 @@ COPY public.pending_requests (id, pictogram_id, tutor_id, patient_id) FROM stdin
 
 
 --
--- TOC entry 2912 (class 0 OID 16433)
--- Dependencies: 206
+-- TOC entry 2910 (class 0 OID 16428)
+-- Dependencies: 204
 -- Data for Name: phrases; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.phrases (id, type, created_at, updated_at, description) FROM stdin;
+9	routines	2019-10-31 14:32:16.005344+00	2019-10-31 14:32:16.005344+00	\N
+10	routines	2019-10-31 14:35:04.699551+00	2019-10-31 14:35:04.699551+00	\N
 \.
 
 
 --
--- TOC entry 2913 (class 0 OID 16441)
--- Dependencies: 207
+-- TOC entry 2917 (class 0 OID 16565)
+-- Dependencies: 211
 -- Data for Name: phrases_folder; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.phrases_folder (id, folder_id, phrase_id) FROM stdin;
+1	10	9
+2	10	10
 \.
 
 
 --
--- TOC entry 2918 (class 0 OID 16455)
--- Dependencies: 212
+-- TOC entry 2914 (class 0 OID 16445)
+-- Dependencies: 208
 -- Data for Name: pictograms; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.pictograms (id, description, type, category_id, created_at, update_at, image) FROM stdin;
+69	Escuchar mucica	\N	75	2019-10-24 20:50:09.941358+00	2019-10-24 20:50:09.941358+00	public\\pictograms\\1571950209894escuchar música.png
+70	Salsa de Tomate	\N	76	2019-10-24 20:50:34.645149+00	2019-10-24 20:50:34.645149+00	public\\pictograms\\1571950234598salsa de tomate.png
+71	Rojo	\N	77	2019-10-24 20:51:00.623818+00	2019-10-24 20:51:00.623818+00	public\\pictograms\\1571950260575rojo.png
+72	Televisor	\N	78	2019-10-24 20:52:56.379288+00	2019-10-24 20:52:56.379288+00	public\\pictograms\\1571950376308televisor.png
 \.
 
 
 --
--- TOC entry 2916 (class 0 OID 16448)
--- Dependencies: 210
+-- TOC entry 2912 (class 0 OID 16438)
+-- Dependencies: 206
 -- Data for Name: pictograms_phrase; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.pictograms_phrase (id, created_at, updated_at, phrase_id, pictogram_id) FROM stdin;
+5	2019-10-31 14:32:16.12291+00	2019-10-31 14:32:16.12291+00	9	72
+6	2019-10-31 14:32:16.178699+00	2019-10-31 14:32:16.178699+00	9	71
+7	2019-10-31 14:35:04.720384+00	2019-10-31 14:35:04.720384+00	10	72
+8	2019-10-31 14:35:04.738183+00	2019-10-31 14:35:04.738183+00	10	71
+9	2019-10-31 14:35:04.752143+00	2019-10-31 14:35:04.752143+00	10	70
+10	2019-10-31 14:35:04.766281+00	2019-10-31 14:35:04.766281+00	10	71
 \.
 
 
@@ -586,14 +606,10 @@ COPY public.pictograms_phrase (id, created_at, updated_at, phrase_id, pictogram_
 --
 
 COPY public.users (id, email, password, name, birthday, voice, tutor_id, image, type_user) FROM stdin;
-22	test@test.com	$2b$10$GnGaLLJQC13JWTR2to55c.9kKk/g5PRliiNA2UYgi0bSDMf.QD1lW	test	2019-10-12	t	\N	public\\users\\1571693951769fotocv.JPG	tutor
-23	test2@test2.com	$2b$10$/Ci0YVpyaWTU24HFp6CfSeNTiJY090FU4t76YgnYmDk/1jiHIJrSe	test2	2019-10-08	t	\N	public\\users\\1571694039820fotocv.JPG	tutor
-24	test3@test3.com	$2b$10$35YSH0IWY6dZvhswmfQbuOKyLqhkvz7gRv1vgm5KRHvMf1PcpM.ti	test3	2019-10-08	t	\N	public\\users\\1571694431092fotocv.JPG	tutor
-25	test4@test4.com	$2b$10$cXURQrhNg82/Nb2AQ5Zo..YGF9J.zhU5K./.dNstegJSykxZinF3i	test4	2019-10-08	t	\N	public\\users\\1571694856881fotocv.JPG	tutor
-26	test5@test5.com	$2b$10$63zvnQC7FKjxdTFg7f8LA.sR4vt6S4Mr6bMLWVK7T/nKOT36TKm9S	test5	2019-10-08	t	\N	public\\users\\1571695007573fotocv.JPG	tutor
-27	nico@nico.com	$2b$10$SPB5f1x1nCtHo49B8oAZS.EfzxzEy6pagf0uhLRR9kzqPSX4Ie3zy	alarcon	2019-10-02	t	\N	public\\users\\1571695194313fotocv.JPG	tutor
-28	nico@ala.com	$2b$10$dNHTiSKvR757eh3SaU/mi.Zsr3TnR0Vzj6sXyzclWhqr6M6phEDXG	nico	2019-10-11	t	\N	public\\users\\1571695437897fotocv.JPG	tutor
-29	test6@test6.com	$2b$10$XSe2TpGI3HeERT/4Agwfy.7s50TQhvNA53Ea/bwM/rkEBhrw6dY2u	test6	2019-10-24	t	\N	public\\users\\1571695608461fotocv.JPG	tutor
+22	admin@admin.com	$2b$10$5PtPZxbZroPv5uPLkwMsqekZw02rSvVnELW6RHq44qSkb..v3nhAe	admin	\N	t	\N	\N	admin
+24	nico@nico.com	$2b$10$O.WsMLGGigjAI4FkGDYYZuhAlWJ0RL2aKJYpzkBz21webpoOSXPZe	Nicolas	2019-10-24	t	\N	public\\users\\1571949009080c.alarcon.png	tutor
+32	patient@patient.com	$2b$10$ZcyHz2VcrapZHWctIeulbOPetEpF/dAxQsXIW5VYsUEqFZWX2Jaxy	patient	2009-04-24	t	24	public\\users\\1572459820634patient.jpg	patient
+25	nico@gmail.com	$2b$10$4qag61.Nk61EWL.zoV3MnebBohcxbnB00.wFBeGlkg6m61T57.y8G	Nicolas	2005-09-19	t	24	public\\users\\1571951010285c.alarcon.png	patient
 \.
 
 
@@ -603,7 +619,7 @@ COPY public.users (id, email, password, name, birthday, voice, tutor_id, image, 
 -- Name: categories_folder_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.categories_folder_id_seq', 91, true);
+SELECT pg_catalog.setval('public.categories_folder_id_seq', 96, true);
 
 
 --
@@ -612,7 +628,7 @@ SELECT pg_catalog.setval('public.categories_folder_id_seq', 91, true);
 -- Name: categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.categories_id_seq', 73, true);
+SELECT pg_catalog.setval('public.categories_id_seq', 78, true);
 
 
 --
@@ -621,7 +637,7 @@ SELECT pg_catalog.setval('public.categories_id_seq', 73, true);
 -- Name: folder_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.folder_id_seq', 4, true);
+SELECT pg_catalog.setval('public.folder_id_seq', 10, true);
 
 
 --
@@ -630,12 +646,12 @@ SELECT pg_catalog.setval('public.folder_id_seq', 4, true);
 -- Name: pacient_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.pacient_id_seq', 29, true);
+SELECT pg_catalog.setval('public.pacient_id_seq', 32, true);
 
 
 --
 -- TOC entry 2941 (class 0 OID 0)
--- Dependencies: 205
+-- Dependencies: 212
 -- Name: pending_requests_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -644,42 +660,42 @@ SELECT pg_catalog.setval('public.pending_requests_id_seq', 1, false);
 
 --
 -- TOC entry 2942 (class 0 OID 0)
--- Dependencies: 208
+-- Dependencies: 210
 -- Name: phrases_folder_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.phrases_folder_id_seq', 1, false);
+SELECT pg_catalog.setval('public.phrases_folder_id_seq', 2, true);
 
 
 --
 -- TOC entry 2943 (class 0 OID 0)
--- Dependencies: 209
+-- Dependencies: 205
 -- Name: phrases_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.phrases_id_seq', 3, true);
+SELECT pg_catalog.setval('public.phrases_id_seq', 10, true);
 
 
 --
 -- TOC entry 2944 (class 0 OID 0)
--- Dependencies: 211
+-- Dependencies: 207
 -- Name: phrases_pictograms_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.phrases_pictograms_id_seq', 4, true);
+SELECT pg_catalog.setval('public.phrases_pictograms_id_seq', 10, true);
 
 
 --
 -- TOC entry 2945 (class 0 OID 0)
--- Dependencies: 213
+-- Dependencies: 209
 -- Name: pictograms_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.pictograms_id_seq', 30, true);
+SELECT pg_catalog.setval('public.pictograms_id_seq', 73, true);
 
 
 --
--- TOC entry 2748 (class 2606 OID 16475)
+-- TOC entry 2748 (class 2606 OID 16472)
 -- Name: categories_folder categories_folder_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -688,7 +704,7 @@ ALTER TABLE ONLY public.categories_folder
 
 
 --
--- TOC entry 2746 (class 2606 OID 16477)
+-- TOC entry 2746 (class 2606 OID 16474)
 -- Name: categories categories_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -697,7 +713,7 @@ ALTER TABLE ONLY public.categories
 
 
 --
--- TOC entry 2750 (class 2606 OID 16479)
+-- TOC entry 2750 (class 2606 OID 16476)
 -- Name: folders folder_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -706,7 +722,7 @@ ALTER TABLE ONLY public.folders
 
 
 --
--- TOC entry 2752 (class 2606 OID 16481)
+-- TOC entry 2752 (class 2606 OID 16478)
 -- Name: users pacient_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -715,7 +731,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 2754 (class 2606 OID 16483)
+-- TOC entry 2762 (class 2606 OID 16616)
 -- Name: pending_requests pending_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -724,7 +740,7 @@ ALTER TABLE ONLY public.pending_requests
 
 
 --
--- TOC entry 2758 (class 2606 OID 16485)
+-- TOC entry 2760 (class 2606 OID 16570)
 -- Name: phrases_folder phrases_folder_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -733,7 +749,7 @@ ALTER TABLE ONLY public.phrases_folder
 
 
 --
--- TOC entry 2760 (class 2606 OID 16487)
+-- TOC entry 2756 (class 2606 OID 16480)
 -- Name: pictograms_phrase phrases_pictograms_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -742,7 +758,7 @@ ALTER TABLE ONLY public.pictograms_phrase
 
 
 --
--- TOC entry 2756 (class 2606 OID 16489)
+-- TOC entry 2754 (class 2606 OID 16482)
 -- Name: phrases phrases_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -751,7 +767,7 @@ ALTER TABLE ONLY public.phrases
 
 
 --
--- TOC entry 2762 (class 2606 OID 16491)
+-- TOC entry 2758 (class 2606 OID 16484)
 -- Name: pictograms pictograms_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -760,7 +776,7 @@ ALTER TABLE ONLY public.pictograms
 
 
 --
--- TOC entry 2780 (class 2620 OID 16492)
+-- TOC entry 2780 (class 2620 OID 16487)
 -- Name: pictograms set_timestamp; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -768,7 +784,7 @@ CREATE TRIGGER set_timestamp BEFORE UPDATE ON public.pictograms FOR EACH ROW EXE
 
 
 --
--- TOC entry 2775 (class 2620 OID 16493)
+-- TOC entry 2775 (class 2620 OID 16488)
 -- Name: categories set_timestamp; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -776,7 +792,7 @@ CREATE TRIGGER set_timestamp BEFORE UPDATE ON public.categories FOR EACH ROW EXE
 
 
 --
--- TOC entry 2777 (class 2620 OID 16494)
+-- TOC entry 2777 (class 2620 OID 16489)
 -- Name: folders set_timestamp; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -784,7 +800,7 @@ CREATE TRIGGER set_timestamp BEFORE UPDATE ON public.folders FOR EACH ROW EXECUT
 
 
 --
--- TOC entry 2776 (class 2620 OID 16495)
+-- TOC entry 2776 (class 2620 OID 16490)
 -- Name: categories_folder set_timestamp; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -792,7 +808,7 @@ CREATE TRIGGER set_timestamp BEFORE UPDATE ON public.categories_folder FOR EACH 
 
 
 --
--- TOC entry 2778 (class 2620 OID 16496)
+-- TOC entry 2778 (class 2620 OID 16491)
 -- Name: phrases set_timestamp; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -800,7 +816,7 @@ CREATE TRIGGER set_timestamp BEFORE UPDATE ON public.phrases FOR EACH ROW EXECUT
 
 
 --
--- TOC entry 2779 (class 2620 OID 16497)
+-- TOC entry 2779 (class 2620 OID 16492)
 -- Name: pictograms_phrase set_timestamp; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -808,7 +824,7 @@ CREATE TRIGGER set_timestamp BEFORE UPDATE ON public.pictograms_phrase FOR EACH 
 
 
 --
--- TOC entry 2763 (class 2606 OID 16498)
+-- TOC entry 2763 (class 2606 OID 16533)
 -- Name: categories_folder categories_folder_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -817,7 +833,7 @@ ALTER TABLE ONLY public.categories_folder
 
 
 --
--- TOC entry 2764 (class 2606 OID 16503)
+-- TOC entry 2764 (class 2606 OID 16586)
 -- Name: categories_folder categories_folder_folder_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -826,7 +842,7 @@ ALTER TABLE ONLY public.categories_folder
 
 
 --
--- TOC entry 2765 (class 2606 OID 16508)
+-- TOC entry 2765 (class 2606 OID 16599)
 -- Name: folders patient_id_pkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -835,7 +851,7 @@ ALTER TABLE ONLY public.folders
 
 
 --
--- TOC entry 2767 (class 2606 OID 16513)
+-- TOC entry 2774 (class 2606 OID 16627)
 -- Name: pending_requests patient_id_pkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -844,7 +860,7 @@ ALTER TABLE ONLY public.pending_requests
 
 
 --
--- TOC entry 2770 (class 2606 OID 16518)
+-- TOC entry 2770 (class 2606 OID 16571)
 -- Name: phrases_folder phrases_folder_folder_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -853,7 +869,7 @@ ALTER TABLE ONLY public.phrases_folder
 
 
 --
--- TOC entry 2771 (class 2606 OID 16523)
+-- TOC entry 2771 (class 2606 OID 16576)
 -- Name: phrases_folder phrases_folder_phrase_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -862,7 +878,7 @@ ALTER TABLE ONLY public.phrases_folder
 
 
 --
--- TOC entry 2772 (class 2606 OID 16528)
+-- TOC entry 2767 (class 2606 OID 16548)
 -- Name: pictograms_phrase phrases_pictograms_phrase_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -871,7 +887,7 @@ ALTER TABLE ONLY public.pictograms_phrase
 
 
 --
--- TOC entry 2773 (class 2606 OID 16533)
+-- TOC entry 2768 (class 2606 OID 16553)
 -- Name: pictograms_phrase phrases_pictograms_pictogram_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -880,7 +896,7 @@ ALTER TABLE ONLY public.pictograms_phrase
 
 
 --
--- TOC entry 2768 (class 2606 OID 16538)
+-- TOC entry 2772 (class 2606 OID 16617)
 -- Name: pending_requests pictogram_id_pkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -889,7 +905,7 @@ ALTER TABLE ONLY public.pending_requests
 
 
 --
--- TOC entry 2774 (class 2606 OID 16543)
+-- TOC entry 2769 (class 2606 OID 16558)
 -- Name: pictograms pictograms_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -898,7 +914,7 @@ ALTER TABLE ONLY public.pictograms
 
 
 --
--- TOC entry 2766 (class 2606 OID 16548)
+-- TOC entry 2766 (class 2606 OID 16604)
 -- Name: folders tutor_id_pkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -907,7 +923,7 @@ ALTER TABLE ONLY public.folders
 
 
 --
--- TOC entry 2769 (class 2606 OID 16553)
+-- TOC entry 2773 (class 2606 OID 16622)
 -- Name: pending_requests tutor_id_pkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -915,7 +931,7 @@ ALTER TABLE ONLY public.pending_requests
     ADD CONSTRAINT tutor_id_pkey FOREIGN KEY (tutor_id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
--- Completed on 2019-10-23 14:52:56
+-- Completed on 2019-11-07 22:46:31
 
 --
 -- PostgreSQL database dump complete
