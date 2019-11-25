@@ -232,46 +232,48 @@ const signUp = (entity, body, file) => {
 
 const signIn = (entity, body) => {
     const { email, password } = body;
-    console.log('Body: ', body.email)
+    console.log('Body: ', body)
     return new Promise((resolve, reject) => {
         pool.query(`SELECT * FROM ${entity} WHERE email = $1`, [email], (error, results) => {
             if(error) {
                 reject(error);
             }
-            if (results.rows.length < 1) {
+            if (results.rows.length === 0) {
+                console.log('entro')
                 resolve({
                     message: 'Authentication Failed - Mail doesn\'t exsist'
                 });
+            } else {
+                console.log('results', results)
+                bcrypt.compare(password, results.rows[0].password, (err, login) => {
+                    if (err) {
+                        resolve({
+                            message: 'Authentication Failed - Error bcrypt'
+                        });
+                    }
+                    if (login) {
+                        const token = jwt.sign(
+                            {
+                                email: results.rows[0].email,
+                                id: results.rows[0].id
+                            },
+                            'secret',
+                            {
+                                expiresIn: '1h'
+                            }
+                        );
+                        resolve({
+                            message: 'Authentication Success',
+                            token: token,
+                            user: results.rows[0]
+                        });
+                    } else {
+                        resolve({
+                            message: 'Authentication Failed - Password'
+                        });
+                    }    
+                }); 
             }
-            console.log('results', results)
-            bcrypt.compare(password, results.rows[0].password, (err, login) => {
-                if (err) {
-                    resolve({
-                        message: 'Authentication Failed - Error bcrypt'
-                    });
-                }
-                if (login) {
-                    const token = jwt.sign(
-                        {
-                            email: results.rows[0].email,
-                            id: results.rows[0].id
-                        },
-                        'secret',
-                        {
-                            expiresIn: '1h'
-                        }
-                    );
-                    resolve({
-                        message: 'Authentication Success',
-                        token: token,
-                        user: results.rows[0]
-                    });
-                } else {
-                    resolve({
-                        message: 'Authentication Failed - Password'
-                    });
-                }    
-            });    
         });
     })
     
