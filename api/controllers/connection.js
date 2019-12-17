@@ -239,8 +239,8 @@ const signIn = (entity, body) => {
                 reject(error);
             }
             if (results.rows.length === 0) {
-                console.log('entro')
                 resolve({
+                    status: 0,
                     message: 'Authentication Failed - Mail doesn\'t exsist'
                 });
             } else {
@@ -248,6 +248,7 @@ const signIn = (entity, body) => {
                 bcrypt.compare(password, results.rows[0].password, (err, login) => {
                     if (err) {
                         resolve({
+                            status: 1,
                             message: 'Authentication Failed - Error bcrypt'
                         });
                     }
@@ -263,12 +264,14 @@ const signIn = (entity, body) => {
                             }
                         );
                         resolve({
+                            status: 2,
                             message: 'Authentication Success',
                             token: token,
                             user: results.rows[0]
                         });
                     } else {
                         resolve({
+                            status: 3,
                             message: 'Authentication Failed - Password'
                         });
                     }    
