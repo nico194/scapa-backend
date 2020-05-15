@@ -4,10 +4,10 @@ const jwt = require('jsonwebtoken');
 const fs = require('fs');
 
 const herokuConfigurarion = {
-    user: 'jwasuvrrhtdzqa',
-    host: 'ec2-52-207-25-133.compute-1.amazonaws.com',
-    database: 'dbess6l048qrh0',
-    password: '9943017eab77b98604a303ec246f33921f92f5580cb8c1ff25bc965dee38a281',
+    user: 'dxwsnqbxqkbdxi',
+    host: 'ec2-50-17-178-87.compute-1.amazonaws.com',
+    database: 'd5e20bseib466h',
+    password: 'f7c7afaaf159f53598b887018bb1cbd48e612529c72b1f695a0b2016f089b252',
     port: 5432
 }
 
