@@ -15,10 +15,13 @@ const pool = new Pool(herokuConfigurarion);
 
 const get = (entity, columns = '*') => {
     return new Promise(function(resolve, reject){
-        pool.query(`SELECT ${columns} FROM ${entity}`, (err, results) => {
+        const query = `SELECT ${columns} FROM ${entity}`;
+        console.log('query', query)
+        pool.query(query, (err, results) => {
             if(err) {
                 reject(err);
             }
+            console.log('r', results)
             resolve(results.rows);
         });
     });
