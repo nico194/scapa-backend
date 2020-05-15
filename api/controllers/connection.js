@@ -3,24 +3,16 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
 
-const localConfigurarion = {
-    user: 'postgres',
-    host: 'localhost',
-    database: 'scapa-backend',
-    password: '1234',
+const herokuConfigurarion = {
+    user: 'jwasuvrrhtdzqa',
+    host: 'ec2-52-207-25-133.compute-1.amazonaws.com',
+    database: 'dbess6l048qrh0',
+    password: '9943017eab77b98604a303ec246f33921f92f5580cb8c1ff25bc965dee38a281',
     port: 5432
 }
 
-// const herokuConfigurarion = {
-//     user: 'lizangklvfjvxw',
-//     host: 'ec2-54-235-180-123.compute-1.amazonaws.com',
-//     database: 'dc09u22c82s9et',
-//     password: '53e97141f1fb8bf8afed76cd132509c7dacbfdf4e34c5d2318b351a6d5ae06e9',
-//     port: 5432
-// }
+const pool = new Pool(herokuConfigurarion);
 
-const pool = new Pool(localConfigurarion);
- 
 const get = (entity, columns = '*') => {
     return new Promise(function(resolve, reject){
         pool.query(`SELECT ${columns} FROM ${entity}`, (err, results) => {
@@ -180,9 +172,9 @@ const signUp = (entity, body, file) => {
             namesKeys += ', ' + name;
             numbersKeys += `, $${number}`;
         }
-            
+
     });
-        
+
     const newBody = Object.values(body);
 
     if(file) {
@@ -190,7 +182,7 @@ const signUp = (entity, body, file) => {
         numbersKeys += `, $${number + 1}`;
         newBody.push(file.path);
     }
-    
+
     return new Promise( (resolve, reject) => {
         pool.query(`SELECT * FROM ${entity} WHERE email = $1`, [body.email], (error, result) => {
             if (error) {
@@ -206,7 +198,7 @@ const signUp = (entity, body, file) => {
                         const index = newBody.findIndex(pass => pass === body.password);
                         newBody[index] = hash;
                         console.log('newBody, index ',newBody, index)
-                        let query = `INSERT INTO ${entity} (${namesKeys}) values (${numbersKeys}) RETURNING id`;                        
+                        let query = `INSERT INTO ${entity} (${namesKeys}) values (${numbersKeys}) RETURNING id`;
                         console.log('Query: ', query);
                         pool.query(query, newBody, (error, results) => {
                             if (error){
@@ -223,11 +215,11 @@ const signUp = (entity, body, file) => {
                         });
                     }
                 });
-                    
+
             }
         });
     })
-        
+
 }
 
 const signIn = (entity, body) => {
@@ -274,12 +266,12 @@ const signIn = (entity, body) => {
                             status: 3,
                             message: 'Authentication Failed - Password'
                         });
-                    }    
-                }); 
+                    }
+                });
             }
         });
     })
-    
+
 }
 
 const connection = {
