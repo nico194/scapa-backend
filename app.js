@@ -29,7 +29,7 @@ app.use((req, res, next)=> {
 });
 
 app.get('/', function(req, res){
-    res.status(200).send({Conectado: 'API corriendo'});
+    res.status(200).send({Conectado: 'API corriendo desde heroku!'});
 });
 
 app.use('/categories', categoriesRouter);
