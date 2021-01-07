@@ -4,10 +4,10 @@ const jwt = require('jsonwebtoken');
 const fs = require('fs');
 
 const localConfigurarion = {
-    user: 'postgres',
-    host: 'localhost',
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    host: process.env.DB_HOST,
     database: 'scapa-backend',
-    password: '1234',
     port: 5432
 }
 
