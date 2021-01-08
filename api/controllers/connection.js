@@ -3,7 +3,19 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
 
-const herokuConfigurarion = {
+
+const databaseConfiguration = {
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    host: process.env.DB_HOST,
+    database: 'scapa-backend',
+    port: 5432
+}
+
+const pool = new Pool(databaseConfiguration);
+ 
+=======
+/*const herokuConfigurarion = {
     user: 'dxwsnqbxqkbdxi',
     host: 'ec2-50-17-178-87.compute-1.amazonaws.com',
     database: 'd5e20bseib466h',
@@ -12,7 +24,7 @@ const herokuConfigurarion = {
 }
 
 const pool = new Pool(herokuConfigurarion);
-
+*/
 const get = (entity, columns = '*') => {
     return new Promise(function(resolve, reject){
         const query = `SELECT ${columns} FROM ${entity}`;
