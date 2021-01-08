@@ -8,23 +8,12 @@ const databaseConfiguration = {
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
     host: process.env.DB_HOST,
-    database: 'scapa-backend',
-    port: 5432
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT
 }
 
 const pool = new Pool(databaseConfiguration);
- 
-=======
-/*const herokuConfigurarion = {
-    user: 'dxwsnqbxqkbdxi',
-    host: 'ec2-50-17-178-87.compute-1.amazonaws.com',
-    database: 'd5e20bseib466h',
-    password: 'f7c7afaaf159f53598b887018bb1cbd48e612529c72b1f695a0b2016f089b252',
-    port: 5432
-}
 
-const pool = new Pool(herokuConfigurarion);
-*/
 const get = (entity, columns = '*') => {
     return new Promise(function(resolve, reject){
         const query = `SELECT ${columns} FROM ${entity}`;
